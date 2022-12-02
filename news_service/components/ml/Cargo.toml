@@ -1,0 +1,25 @@
+[package]
+name = "ml"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+db = { path = "../db" }
+
+# Runtime
+tokio = {version = "1.15.0", features = ["full"]}
+
+jsonl = "4.0.1"
+
+# JSON
+serde = { version = "1.0", features = ["derive"] }
+serde_json = { version = "1.0.64" }
+
+# Misc
+anyhow = "1.0.28"
+
+
+# Workaround for https://github.com/gyscos/zstd-rs/issues/177
+zstd-sys = "=2.0.1+zstd.1.5.2"

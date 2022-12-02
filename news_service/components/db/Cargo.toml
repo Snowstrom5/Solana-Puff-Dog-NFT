@@ -1,0 +1,32 @@
+[package]
+name = "db"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "db"
+path = "src/lib.rs"
+
+[dependencies]
+
+# Database
+sqlx = { version = "0.6.2", features = ["runtime-tokio-rustls", "postgres", "time", "offline"] } 
+time = { version = "0.3.2", features = ["macros", "formatting", "parsing"] }
+
+# Graphql
+async-graphql = {version = "4.0.8", default-features = false }
+
+# JSON
+serde = { version = "1.0", features = ["derive"] }
+serde_json = { version = "1.0.64" }
+
+# Logging
+dotenv = "0.15.0"
+env_logger = "0.9.0"
+log = "0.4.14"
+
+# Misc 
+anyhow = "1.0.28"
+
+# Workaround for https://github.com/gyscos/zstd-rs/issues/177
+zstd-sys = "=2.0.1+zstd.1.5.2"

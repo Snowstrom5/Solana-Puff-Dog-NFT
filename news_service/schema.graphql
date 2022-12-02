@@ -1,0 +1,43 @@
+
+
+
+
+type NewsFeedStatus {
+	completedAt: Int
+}
+
+type NewsFeedUrl {
+	urlId: Int!
+	urlScore: Int!
+	numReferences: Int!
+	firstReferencedByUsername: String!
+	createdAt: Int!
+	title: String!
+	description: String!
+	expandedUrlParsed: String!
+	expandedUrlHost: String!
+	displayUrl: String!
+	previewImageThumbnailUrl: String
+	previewImageUrl: String
+}
+
+type NewsFeedUrlReference {
+	urlId: Int!
+	tweetId: String!
+	tweetText: String!
+	tweetCreatedAtStr: String!
+	authorUsername: String!
+	retweetedByUsernames: [String!]!
+}
+
+type Query {
+	newsFeedStatus: NewsFeedStatus!
+	newsFeedUrls: [NewsFeedUrl!]!
+	newsFeedUrl(urlId: Int!): NewsFeedUrl!
+	newsFeedUrlReferences(urlId: Int!): [NewsFeedUrlReference!]!
+}
+
+
+schema {
+	query: Query
+}

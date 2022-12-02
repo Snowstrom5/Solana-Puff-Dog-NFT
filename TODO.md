@@ -1,0 +1,19 @@
+# Service
+- [ ] Use cron job end time to show accurate share count
+- [ ] Run tests on each push
+- [ ] Host images on CDN
+- [ ] Avoid showing tweets by the same author, unless it was retweeted
+- [ ] handle users retweeting non-users, show tweet with retweeted by text
+- [ ] use log4rs to save log files
+- [ ] Allow links without a description
+- [ ] Log sqlx errors + ignore RowNotFound errors
+- [ ] remove all unwraps
+- [ ] handle openAI api errors
+- [ ] setup slack for errors
+- [ ] Prepare larger model training data https://beta.openai.com/docs/guides/fine-tuning/prepare-training-data
+- [ ] Parse bit.ly links https://stackoverflow.com/a/69944864
+- [ ] remove unwraps
+- [ ] Use decimal for url score or *100 
+- [ ] Add request caching / cache busting every hour - next.js website
+- [ ] Update Ansible playbook
+- [ ] Include database query in API health check

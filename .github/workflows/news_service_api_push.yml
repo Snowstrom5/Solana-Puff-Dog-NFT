@@ -1,0 +1,21 @@
+name: api_push
+
+# Run build steps for all pushes
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: news_service    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build api
+        run: SQLX_OFFLINE=true cargo build --release --verbose --bin api    
+      # - name: Run tests
+      #   run: SQLX_OFFLINE=true cargo test --verbose

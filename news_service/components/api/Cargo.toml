@@ -1,0 +1,38 @@
+[package]
+name = "api"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "api"
+path = "src/main.rs"
+
+[dependencies]
+
+db = { path = "../db" }
+
+# Server
+actix-web = "4.0.0-beta.19"
+actix-cors = "0.6.1"
+
+# Graphql
+async-graphql = {version = "4.0.8", default-features = false }
+async-graphql-actix-web = "4.0.8"
+
+# Database
+sqlx = { version = "0.6.2", features = ["runtime-tokio-rustls", "postgres", "time", "offline"] } 
+
+# Runtime
+tokio = {version = "1.15.0", features = ["full"]}
+
+# Misc
+anyhow = "1.0.28"
+thiserror = "1.0.32"
+itertools = "0.10.5"
+
+# Logging
+log = "0.4.0"
+
+# Workaround for https://github.com/gyscos/zstd-rs/issues/177
+zstd-sys = "=2.0.1+zstd.1.5.2"
+

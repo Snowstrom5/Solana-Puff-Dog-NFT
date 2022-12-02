@@ -1,0 +1,23 @@
+query GetNewsFeedUrlAndReferences($urlId: Int!) {
+  newsFeedUrl(urlId: $urlId) {
+    urlId
+    urlScore
+    numReferences
+    firstReferencedByUsername
+    createdAt
+    title
+    description
+    expandedUrlParsed
+    expandedUrlHost
+    previewImageThumbnailUrl
+    previewImageUrl
+    displayUrl
+  }
+  newsFeedUrlReferences(urlId: $urlId) {
+    tweetId
+    tweetText
+    tweetCreatedAtStr
+    authorUsername
+    retweetedByUsernames
+  }
+}

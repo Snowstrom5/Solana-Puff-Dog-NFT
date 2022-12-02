@@ -1,0 +1,19 @@
+query GetNewsFeedUrlsAndNewsFeedStatus {
+  newsFeedUrls {
+    urlId
+    urlScore
+    numReferences
+    firstReferencedByUsername
+    createdAt
+    title
+    description
+    expandedUrlParsed
+    expandedUrlHost
+    previewImageThumbnailUrl
+    previewImageUrl
+    displayUrl
+  }
+  newsFeedStatus {
+    completedAt
+  }
+}

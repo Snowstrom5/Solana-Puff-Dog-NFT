@@ -1,0 +1,127 @@
+version: '3.4'
+services:
+
+  caddy:
+      image: caddy:2.6.2-alpine
+      restart: unless-stopped
+      command: caddy reverse-proxy --from climatenews.app:443 --to web:3000
+      ports:
+        - 80:80
+        - 443:443
+      volumes:
+        - caddy_data:/data
+      depends_on:
+        - web
+      networks:
+        - client-side   
+
+  web:
+    image: climateactioncollective/web:latest
+    build:
+      context: web
+      target: development
+    environment:
+      - GRAPHQL_API_URL=${GRAPHQL_API_URL}   
+    networks:
+      - client-side
+    ports:
+      - 3000:3000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: always  
+    deploy:
+      mode: replicated
+      replicas: 1
+
+  news_api:
+    image: climateactioncollective/news_api:latest
+    build:
+      context: news_service
+      args:
+        SERVICE_NAME: api 
+    environment:
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - RUST_LOG=info,actix=info
+      - DATABASE_URL=${DATABASE_URL}
+    ports:
+      - 8000:8000
+    networks:
+      - client-side
+      - server-side
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s  
+    restart: always    
+    deploy:
+      mode: replicated
+      replicas: 1      
+
+  news_cron:
+    image: climateactioncollective/news_cron:latest
+    build:
+      context: news_service
+      args:
+        SERVICE_NAME: cron 
+    environment:
+      - CRON_HOST=0.0.0.0
+      - CRON_PORT=8001
+      - RUST_LOG=info,actix=info
+      - DATABASE_URL=${DATABASE_URL}
+      - TWITTER_BEARER_TOKEN=${TWITTER_BEARER_TOKEN}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    networks:
+      - server-side
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s   
+    restart: always  
+    deploy:
+      mode: replicated
+      replicas: 1        
+
+
+  db:
+    image: postgres:12-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}    
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+      - server-side
+    ports:
+      - 5432:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    deploy:
+      mode: replicated
+      replicas: 1      
+
+networks:
+  client-side: {}
+  server-side: {}
+
+volumes:
+  db_data: {}
+  caddy_data: {}  

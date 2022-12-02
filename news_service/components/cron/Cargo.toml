@@ -1,0 +1,58 @@
+[package]
+name = "cron"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "cron"
+path = "src/main.rs"
+
+
+[dependencies]
+db = { path = "../db" }
+
+# Twitter API
+twitter-v2 = {version = "0.1.8", features = ["rustls-tls"] }
+reqwest = "0.11.12"
+
+# URL parsing
+url = "2.2.2"
+
+# Database
+sqlx = { version = "0.6.2", features = ["runtime-tokio-rustls", "postgres", "time", "offline"] } 
+time = { version = "0.3.2", features = ["macros", "formatting", "parsing"] }
+
+# Runtime
+tokio = {version = "1.15.0", features = ["full"]}
+
+# Enum helpers 
+strum = "0.24.1"
+strum_macros = "0.24.3"
+
+# Decimal
+rust_decimal = { version ="1.26", features =["maths"]}
+rust_decimal_macros = "1.26"
+
+# Errors
+anyhow = "1.0.28"
+
+# Logging
+log = "0.4.0"
+env_logger = "0.9.0"
+
+# Date and time library for Rust
+chrono = "0.4.22"
+
+# actix
+actix-web = "4.2.1"
+actix-rt = "2.7.0"
+
+# language detection library
+lingua = { version = "1.4.0", default-features = false, features = ["english", "french", "german" ,"italian", "spanish", "swedish"] }
+
+# JSON
+serde = { version = "1.0", features = ["derive"] }
+serde_json = { version = "1.0.64" }
+
+# Workaround for https://github.com/gyscos/zstd-rs/issues/177
+zstd-sys = "=2.0.1+zstd.1.5.2"
