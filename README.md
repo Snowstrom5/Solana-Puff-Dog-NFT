@@ -2,7 +2,9 @@
 
 ## Overview
 `devops` - Terraform & Ansible deployment scripts
+
 `news_service` - Rust Cron and API services
+
 `web` - Next.js frontend
 
 ## Running locally
