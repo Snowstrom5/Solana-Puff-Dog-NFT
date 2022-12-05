@@ -38,7 +38,7 @@ export default function NewsContent(props: NewsContentProps) {
                       className="hover:underline"
                     >
                       <div className="flex flex-row">
-                        <p className="text-base">
+                        <p className="text-base mr-1">
                           <b>{newsFeedUrl?.title}</b> (
                           {newsFeedUrl?.expandedUrlHost})
                         </p>
@@ -61,12 +61,9 @@ export default function NewsContent(props: NewsContentProps) {
 
                   {/* Image preview */}
                   <div className="col-span-2">
-                    <Link
-                      href={{
-                        pathname: "/news_feed/[url_id]",
-                        query: { url_id: newsFeedUrl.urlId }
-                      }}
-                      className=" hover:underline"
+                  <a
+                      href={newsFeedUrl.expandedUrlParsed}
+                      className="hover:underline"
                     >
                       <img
                         className="mx-auto h-15 w-15 rounded lg:h-20 lg:w-20 lg:rounded-md"
@@ -77,7 +74,7 @@ export default function NewsContent(props: NewsContentProps) {
                         }
                         alt=""
                       />
-                    </Link>
+                    </a>
                   </div>
                 </li>
               );
