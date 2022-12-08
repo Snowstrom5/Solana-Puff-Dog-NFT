@@ -1,7 +1,7 @@
 use crate::news_feed::models::tweet_info::TweetInfo;
 use db::queries::news_referenced_url_query::NewsReferencedUrlQuery;
 use deunicode::deunicode_char;
-use std::collections::HashMap;
+use std::{cmp, collections::HashMap};
 
 // Populate a map of author_id to score
 // author_id -> user_score
@@ -55,11 +55,11 @@ pub fn populate_url_to_tweet_map(
 }
 
 // Source: https://github.com/Stebalien/slug-rs/blob/master/src/lib.rs
-fn slugify(s: &str) -> String {
+pub fn slugify(s: &str) -> String {
     // Split the sentence into a vector of words
     let words: Vec<&str> = s.split(" ").collect();
     // Get the first eight words from the vector and create a new string
-    let s = words[..10].to_vec().join(" ");
+    let s = words[..cmp::min(10, words.len())].to_vec().join(" ");
     let mut slug: Vec<u8> = Vec::with_capacity(s.len());
 
     // Starts with true to avoid leading -

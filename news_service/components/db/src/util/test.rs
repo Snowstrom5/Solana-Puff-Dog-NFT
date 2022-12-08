@@ -38,7 +38,7 @@ pub mod test_util {
             is_english: true,
             preview_image_url: Some(String::from("preview_image_url")),
             preview_image_thumbnail_url: Some(String::from("preview_image_thumbnail_url")),
-            title: String::from("title"),
+            title: String::from("example title"),
             description: String::from("description"),
             created_at: created_at_timestamp,
             created_at_str: String::from("created_at_str"),
@@ -138,6 +138,7 @@ pub mod test_util {
     pub async fn create_fake_news_feed_url(db_pool: &PgPool, created_at_timestamp: i64) {
         truncate_news_feed_url(db_pool).await.unwrap();
         let news_feed_url = NewsFeedUrl {
+            url_slug: String::from("example-title"),
             url_id: 1,
             url_score: 90,
             num_references: 2,

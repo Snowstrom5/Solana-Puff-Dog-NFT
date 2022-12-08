@@ -17,9 +17,10 @@ pub fn init_env() {
     if cfg!(debug_assertions) {
         dotenv::from_filename("../.env.localhost").ok();
     }
-    env_logger::builder()
+    // ignore the logger error after its first invocation
+    let _ = env_logger::builder()
         .filter_level(log::LevelFilter::Info)
-        .init();
+        .try_init();
 }
 
 pub async fn init_db_pool() -> anyhow::Result<PgPool> {

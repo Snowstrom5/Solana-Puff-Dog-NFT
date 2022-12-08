@@ -47,6 +47,7 @@ mod tests {
                 r#"
                 query {
                     newsFeedUrl(urlId: 1) {
+                        urlSlug
                         urlId
                         urlScore
                         numReferences
@@ -69,12 +70,13 @@ mod tests {
             value!({
                 "newsFeedUrl":
                     {
+                        "urlSlug": String::from("example-title"),
                         "urlId": 1,
                         "urlScore": 90,
                         "numReferences": 2,
                         "firstReferencedByUsername": String::from("username"),
                         "createdAt": now_utc_timestamp(),
-                        "title": String::from("title"),
+                        "title": String::from("example title"),
                         "description": String::from("description"),
                         "expandedUrlParsed": String::from("expanded_url_parsed"),
                         "expandedUrlHost": String::from("expanded_url_host"),

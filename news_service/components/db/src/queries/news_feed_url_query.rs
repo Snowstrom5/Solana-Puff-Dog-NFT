@@ -5,6 +5,7 @@ use sqlx::FromRow;
 #[derive(FromRow, Deserialize, Serialize, Debug, Clone, async_graphql::SimpleObject)]
 #[graphql(name = "NewsFeedUrl")]
 pub struct NewsFeedUrlQuery {
+    pub url_slug: String,
     pub url_id: i32,
     pub url_score: i32,
     pub num_references: i32,

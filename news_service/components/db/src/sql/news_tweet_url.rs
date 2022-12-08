@@ -62,11 +62,11 @@ pub async fn find_news_tweet_url_by_expanded_url_parsed(
     }
 }
 
-pub async fn find_news_tweet_url_by_url_id(
+pub async fn find_news_tweet_url_by_id(
     pool: &PgPool,
     url_id: i32,
-) -> Option<NewsTweetUrlWithId> {
-    let news_tweet_url_result = sqlx::query_as!(
+) -> Result<NewsTweetUrlWithId, sqlx::Error> {
+    sqlx::query_as!(
         NewsTweetUrlWithId,
         r#"
             SELECT 
@@ -77,11 +77,7 @@ pub async fn find_news_tweet_url_by_url_id(
             url_id
     )
     .fetch_one(pool)
-    .await;
-    match news_tweet_url_result {
-        Ok(news_tweet_url) => Some(news_tweet_url),
-        Err(_) => None,
-    }
+    .await
 }
 
 pub async fn truncate_news_tweet_url(pool: &PgPool) -> anyhow::Result<()> {

@@ -11,6 +11,7 @@ pub async fn get_news_feed_urls(
         NewsFeedUrlQuery,
         r#"
         SELECT
+            nfu.url_slug, 
             nfu.url_id, 
             nfu.url_score,
             nfu.num_references,
@@ -51,6 +52,7 @@ pub async fn get_news_feed_url(
         NewsFeedUrlQuery,
         r#"
         SELECT
+            nfu.url_slug, 
             nfu.url_id, 
             nfu.url_score,
             nfu.num_references,

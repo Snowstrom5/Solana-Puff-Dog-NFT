@@ -1,3 +1,4 @@
+use super::helper::slugify;
 use super::time_decay::time_decayed_url_score;
 use crate::news_feed::algorithm::helper::{populate_author_score_map, populate_url_to_tweet_map};
 use crate::news_feed::models::tweet_info::TweetInfo;
@@ -7,12 +8,13 @@ use chrono::Local;
 use db::constants::NEWS_FEED_URLS_NUM_DAYS;
 use db::models::news_feed_url::NewsFeedUrl;
 use db::sql::news_feed_url::{
-    find_news_feed_url_by_url_id, find_top_news_feed_urls_without_is_climate_related_set,
-    insert_news_feed_url, reset_news_feed_url_url_scores,
-    update_news_feed_url_url_is_climate_related, update_news_feed_url_url_score_and_num_references,
+    find_news_feed_url_by_url_id, find_news_feed_url_by_url_slug,
+    find_top_news_feed_urls_without_is_climate_related_set, insert_news_feed_url,
+    reset_news_feed_url_url_scores, update_news_feed_url_url_is_climate_related,
+    update_news_feed_url_url_score_and_num_references,
 };
 use db::sql::news_referenced_url_query::get_news_referenced_urls;
-use db::sql::news_tweet_url::find_news_tweet_url_by_url_id;
+use db::sql::news_tweet_url::find_news_tweet_url_by_id;
 use db::util::convert::{
     datetime_from_unix_timestamp, datetime_to_str, now_utc_timestamp, seconds_in_hour,
 };
@@ -75,9 +77,12 @@ async fn populate_news_feed_urls_v1(
         // Number of references/shares
         let num_references = tweet_info_vec.len() as i32;
 
+        let url_slug = create_news_feed_url_slug(db_pool, *url_id).await?;
+
         let news_feed_url_db = find_news_feed_url_by_url_id(db_pool, *url_id).await;
         if news_feed_url_db.is_none() {
             let news_feed_url = NewsFeedUrl {
+                url_slug,
                 url_id: *url_id,
                 url_score: time_decayed_url_score,
                 num_references,
@@ -88,7 +93,7 @@ async fn populate_news_feed_urls_v1(
                     first_tweet.created_at,
                 )),
             };
-            insert_news_feed_url(db_pool, news_feed_url).await;
+            insert_news_feed_url(db_pool, news_feed_url).await?;
         } else {
             update_news_feed_url_url_score_and_num_references(
                 db_pool,
@@ -105,6 +110,25 @@ async fn populate_news_feed_urls_v1(
     Ok(())
 }
 
+// Create news feed url slug
+async fn create_news_feed_url_slug(db_pool: &PgPool, url_id: i32) -> Result<String> {
+    let news_tweet_url = find_news_tweet_url_by_id(db_pool, url_id).await?;
+    let mut url_slug = slugify(&news_tweet_url.title);
+    let mut count = 1u32;
+    loop {
+        let news_feed_url_db = find_news_feed_url_by_url_slug(db_pool, url_slug.clone()).await;
+        if news_feed_url_db.is_ok() {
+            // existing url_slug in use, try a new url_slug
+            url_slug = format!("{}-{}", url_slug, count);
+            count += 1;
+        } else {
+            // url_slug not in use;
+            break;
+        }
+    }
+    Ok(url_slug)
+}
+
 // Set the is_climate_related field for the top scoring news_feed_urls
 // that have not had the classification field set yet
 // Only call OpenAI API for 100 top news feed links to reduce API fees
@@ -113,9 +137,7 @@ async fn update_is_climate_related_fields(db_pool: &PgPool) -> Result<()> {
         find_top_news_feed_urls_without_is_climate_related_set(db_pool).await
     {
         for news_feed_url in news_feed_urls {
-            let news_tweet_url = find_news_tweet_url_by_url_id(db_pool, news_feed_url.url_id)
-                .await
-                .unwrap();
+            let news_tweet_url = find_news_tweet_url_by_id(db_pool, news_feed_url.url_id).await?;
 
             match fetch_news_tweet_url_climate_classification(news_tweet_url).await {
                 Ok(is_climate_related) => {
@@ -137,4 +159,38 @@ async fn update_is_climate_related_fields(db_pool: &PgPool) -> Result<()> {
     }
 
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+
+    use super::*;
+    use db::{
+        init_env, init_test_db_pool,
+        sql::news_feed_url::truncate_news_feed_url,
+        util::{
+            convert::now_utc_timestamp,
+            test::test_util::{create_fake_news_feed_url, create_fake_news_tweet_url},
+        },
+    };
+
+    #[tokio::test]
+    async fn create_news_feed_url_slug_test() {
+        init_env();
+        let db_pool = init_test_db_pool().await.unwrap();
+        truncate_news_feed_url(&db_pool).await.unwrap();
+        let created_at_timestamp = now_utc_timestamp();
+
+        create_fake_news_tweet_url(&db_pool, created_at_timestamp).await;
+
+        // url_slug not in use
+        let url_slug_new = create_news_feed_url_slug(&db_pool, 1).await.unwrap();
+        assert_eq!(url_slug_new, String::from("example-title"));
+
+        create_fake_news_feed_url(&db_pool, created_at_timestamp).await;
+
+        // url_slug in use
+        let url_slug_existing = create_news_feed_url_slug(&db_pool, 1).await.unwrap();
+        assert_eq!(url_slug_existing, String::from("example-title-1"));
+    }
 }

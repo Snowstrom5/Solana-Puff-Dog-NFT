@@ -119,7 +119,7 @@ mod tests {
                         "tweetText": String::from("tweet_text"),
                         "tweetCreatedAtStr": String::from("created_at_str"),
                         "authorUsername": String::from("username"),
-                        "retweetedByUsernames": [String::from("retweeted_username")],
+                        "retweetedByUsernames": [String::from("@retweeted_username")],
                     },
                     {
                         "tweetId": String::from("3"),

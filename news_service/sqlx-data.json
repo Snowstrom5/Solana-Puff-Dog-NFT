@@ -344,92 +344,6 @@
     },
     "query": "\n            INSERT INTO news_twitter_user ( \n                user_id, username, profile_image_url, description, verified, followers_count, listed_count, user_referenced_tweets_count, user_score, last_tweet_id, last_updated_at, last_checked_at\n             )\n            VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)\n            RETURNING \n            user_id, username, profile_image_url, description, verified, followers_count, listed_count, user_referenced_tweets_count, user_score, last_tweet_id, last_updated_at, last_checked_at\n            "
   },
-  "2aeb41519884d33398784d295db19cfa1d8ba120856e0928cc54061e6040c0f5": {
-    "describe": {
-      "columns": [
-        {
-          "name": "url_id",
-          "ordinal": 0,
-          "type_info": "Int4"
-        },
-        {
-          "name": "url_score",
-          "ordinal": 1,
-          "type_info": "Int4"
-        },
-        {
-          "name": "num_references",
-          "ordinal": 2,
-          "type_info": "Int4"
-        },
-        {
-          "name": "first_referenced_by_username",
-          "ordinal": 3,
-          "type_info": "Text"
-        },
-        {
-          "name": "created_at",
-          "ordinal": 4,
-          "type_info": "Int8"
-        },
-        {
-          "name": "title",
-          "ordinal": 5,
-          "type_info": "Text"
-        },
-        {
-          "name": "description",
-          "ordinal": 6,
-          "type_info": "Text"
-        },
-        {
-          "name": "expanded_url_parsed",
-          "ordinal": 7,
-          "type_info": "Text"
-        },
-        {
-          "name": "expanded_url_host",
-          "ordinal": 8,
-          "type_info": "Text"
-        },
-        {
-          "name": "display_url",
-          "ordinal": 9,
-          "type_info": "Text"
-        },
-        {
-          "name": "preview_image_thumbnail_url",
-          "ordinal": 10,
-          "type_info": "Text"
-        },
-        {
-          "name": "preview_image_url",
-          "ordinal": 11,
-          "type_info": "Text"
-        }
-      ],
-      "nullable": [
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        true,
-        true
-      ],
-      "parameters": {
-        "Left": [
-          "Int4"
-        ]
-      }
-    },
-    "query": "\n        SELECT\n            nfu.url_id, \n            nfu.url_score,\n            nfu.num_references,\n            u.username as first_referenced_by_username,\n            nfu.created_at,\n            tu.title,\n            tu.description,\n            tu.expanded_url_parsed,\n            tu.expanded_url_host,\n            tu.display_url,\n            tu.preview_image_thumbnail_url,\n            tu.preview_image_url\n            \n        FROM\n            news_feed_url as nfu\n            JOIN news_tweet_url as tu ON tu.id = nfu.url_id\n            JOIN news_twitter_user as u ON u.user_id = nfu.first_referenced_by\n        WHERE\n            nfu.url_id = $1\n     "
-  },
   "2dccf25c9c774cec1656ae4690667cea9c10a5b03cd9ab5d708de10e1c6e1271": {
     "describe": {
       "columns": [
@@ -471,62 +385,6 @@
       }
     },
     "query": "\n        SELECT started_at, started_at_str, completed_at, completed_at_str, error            \n        FROM news_cron_job\n        WHERE completed_at IS NOT NULL\n        ORDER BY completed_at DESC\n        LIMIT 1\n     "
-  },
-  "35cfa643c75c36cb1ad6721534624ded40d662bffb1ee6ccb527eb6849daed89": {
-    "describe": {
-      "columns": [
-        {
-          "name": "url_id",
-          "ordinal": 0,
-          "type_info": "Int4"
-        },
-        {
-          "name": "url_score",
-          "ordinal": 1,
-          "type_info": "Int4"
-        },
-        {
-          "name": "num_references",
-          "ordinal": 2,
-          "type_info": "Int4"
-        },
-        {
-          "name": "first_referenced_by",
-          "ordinal": 3,
-          "type_info": "Int8"
-        },
-        {
-          "name": "is_climate_related",
-          "ordinal": 4,
-          "type_info": "Bool"
-        },
-        {
-          "name": "created_at",
-          "ordinal": 5,
-          "type_info": "Int8"
-        },
-        {
-          "name": "created_at_str",
-          "ordinal": 6,
-          "type_info": "Text"
-        }
-      ],
-      "nullable": [
-        false,
-        false,
-        false,
-        false,
-        true,
-        false,
-        false
-      ],
-      "parameters": {
-        "Left": [
-          "Int4"
-        ]
-      }
-    },
-    "query": "\n            SELECT url_id, url_score, num_references, first_referenced_by, is_climate_related, created_at, created_at_str\n            FROM news_feed_url\n            WHERE url_id = $1;\n        "
   },
   "4bf4151407d814c10d354a13f6a61d5f8e272b8207b3f892a959b285fdec3306": {
     "describe": {
@@ -644,6 +502,68 @@
     },
     "query": "\n            SELECT user_id, username, profile_image_url, description, verified, followers_count, listed_count, user_referenced_tweets_count, user_score, last_tweet_id, last_updated_at, last_checked_at\n            FROM news_twitter_user\n            WHERE user_id = $1;\n        "
   },
+  "5df19ca8a473e33b93d458673c546c073da1b90d84982e979c5a84757f97e4e5": {
+    "describe": {
+      "columns": [
+        {
+          "name": "url_slug",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "url_id",
+          "ordinal": 1,
+          "type_info": "Int4"
+        },
+        {
+          "name": "url_score",
+          "ordinal": 2,
+          "type_info": "Int4"
+        },
+        {
+          "name": "num_references",
+          "ordinal": 3,
+          "type_info": "Int4"
+        },
+        {
+          "name": "first_referenced_by",
+          "ordinal": 4,
+          "type_info": "Int8"
+        },
+        {
+          "name": "is_climate_related",
+          "ordinal": 5,
+          "type_info": "Bool"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 6,
+          "type_info": "Int8"
+        },
+        {
+          "name": "created_at_str",
+          "ordinal": 7,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Int4"
+        ]
+      }
+    },
+    "query": "\n            SELECT url_slug, url_id, url_score, num_references, first_referenced_by, is_climate_related, created_at, created_at_str\n            FROM news_feed_url\n            WHERE url_id = $1;\n        "
+  },
   "5e4e02137987d4256d68d4ee59ee7f472a27ed06a594e1de3fa44b7a7d543a75": {
     "describe": {
       "columns": [
@@ -756,6 +676,98 @@
       }
     },
     "query": "\n        UPDATE news_feed_url \n        SET is_climate_related = $1\n        WHERE url_id = $2\n        "
+  },
+  "69503352fb5f407027b34c7463cde7691a7607177e99658242194663172c58b6": {
+    "describe": {
+      "columns": [
+        {
+          "name": "url_slug",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "url_id",
+          "ordinal": 1,
+          "type_info": "Int4"
+        },
+        {
+          "name": "url_score",
+          "ordinal": 2,
+          "type_info": "Int4"
+        },
+        {
+          "name": "num_references",
+          "ordinal": 3,
+          "type_info": "Int4"
+        },
+        {
+          "name": "first_referenced_by_username",
+          "ordinal": 4,
+          "type_info": "Text"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 5,
+          "type_info": "Int8"
+        },
+        {
+          "name": "title",
+          "ordinal": 6,
+          "type_info": "Text"
+        },
+        {
+          "name": "description",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "expanded_url_parsed",
+          "ordinal": 8,
+          "type_info": "Text"
+        },
+        {
+          "name": "expanded_url_host",
+          "ordinal": 9,
+          "type_info": "Text"
+        },
+        {
+          "name": "display_url",
+          "ordinal": 10,
+          "type_info": "Text"
+        },
+        {
+          "name": "preview_image_thumbnail_url",
+          "ordinal": 11,
+          "type_info": "Text"
+        },
+        {
+          "name": "preview_image_url",
+          "ordinal": 12,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Int4"
+        ]
+      }
+    },
+    "query": "\n        SELECT\n            nfu.url_slug, \n            nfu.url_id, \n            nfu.url_score,\n            nfu.num_references,\n            u.username as first_referenced_by_username,\n            nfu.created_at,\n            tu.title,\n            tu.description,\n            tu.expanded_url_parsed,\n            tu.expanded_url_host,\n            tu.display_url,\n            tu.preview_image_thumbnail_url,\n            tu.preview_image_url\n            \n        FROM\n            news_feed_url as nfu\n            JOIN news_tweet_url as tu ON tu.id = nfu.url_id\n            JOIN news_twitter_user as u ON u.user_id = nfu.first_referenced_by\n        WHERE\n            nfu.url_id = $1\n     "
   },
   "6c5f2ae0f3d4ace8126f71038281cba48eb3761cf3ccc6ce12ed458aaf43b922": {
     "describe": {
@@ -959,6 +971,75 @@
     },
     "query": "\n            UPDATE news_twitter_list \n            SET last_checked_at = $1\n            WHERE list_id = $2\n            "
   },
+  "a521d5256694c5c204d78ea899e42416c29f7dbf14dd9167b0fc93568018e22f": {
+    "describe": {
+      "columns": [
+        {
+          "name": "url_slug",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "url_id",
+          "ordinal": 1,
+          "type_info": "Int4"
+        },
+        {
+          "name": "url_score",
+          "ordinal": 2,
+          "type_info": "Int4"
+        },
+        {
+          "name": "num_references",
+          "ordinal": 3,
+          "type_info": "Int4"
+        },
+        {
+          "name": "first_referenced_by",
+          "ordinal": 4,
+          "type_info": "Int8"
+        },
+        {
+          "name": "is_climate_related",
+          "ordinal": 5,
+          "type_info": "Bool"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 6,
+          "type_info": "Int8"
+        },
+        {
+          "name": "created_at_str",
+          "ordinal": 7,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Int4",
+          "Int4",
+          "Int4",
+          "Int8",
+          "Bool",
+          "Int8",
+          "Text"
+        ]
+      }
+    },
+    "query": "\n            INSERT INTO news_feed_url ( \n                url_slug, url_id, url_score, num_references, first_referenced_by, is_climate_related, created_at, created_at_str\n             )\n            VALUES ( $1, $2, $3, $4, $5, $6, $7, $8)\n            RETURNING \n                url_slug, url_id, url_score, num_references, first_referenced_by, is_climate_related, created_at, created_at_str\n            "
+  },
   "a783689e1d9446b90265bf4cab2fb453a04b4628cb43e286089c66666a36b253": {
     "describe": {
       "columns": [
@@ -1079,6 +1160,99 @@
     },
     "query": "\n            INSERT INTO news_referenced_tweet ( \n                tweet_id, referenced_tweet_id, referenced_tweet_kind\n             )\n            VALUES ( $1, $2, $3)\n            RETURNING \n                tweet_id, referenced_tweet_id, referenced_tweet_kind\n            "
   },
+  "b34835f550ba5fd9dda52cbf3d79483b754d7c111845032cd0a836621d50f5fb": {
+    "describe": {
+      "columns": [
+        {
+          "name": "url_slug",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "url_id",
+          "ordinal": 1,
+          "type_info": "Int4"
+        },
+        {
+          "name": "url_score",
+          "ordinal": 2,
+          "type_info": "Int4"
+        },
+        {
+          "name": "num_references",
+          "ordinal": 3,
+          "type_info": "Int4"
+        },
+        {
+          "name": "first_referenced_by_username",
+          "ordinal": 4,
+          "type_info": "Text"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 5,
+          "type_info": "Int8"
+        },
+        {
+          "name": "title",
+          "ordinal": 6,
+          "type_info": "Text"
+        },
+        {
+          "name": "description",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "expanded_url_parsed",
+          "ordinal": 8,
+          "type_info": "Text"
+        },
+        {
+          "name": "expanded_url_host",
+          "ordinal": 9,
+          "type_info": "Text"
+        },
+        {
+          "name": "display_url",
+          "ordinal": 10,
+          "type_info": "Text"
+        },
+        {
+          "name": "preview_image_thumbnail_url",
+          "ordinal": 11,
+          "type_info": "Text"
+        },
+        {
+          "name": "preview_image_url",
+          "ordinal": 12,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Int8",
+          "Int8"
+        ]
+      }
+    },
+    "query": "\n        SELECT\n            nfu.url_slug, \n            nfu.url_id, \n            nfu.url_score,\n            nfu.num_references,\n            u.username as first_referenced_by_username,\n            nfu.created_at,\n            tu.title,\n            tu.description,\n            tu.expanded_url_parsed,\n            tu.expanded_url_host,\n            tu.display_url,\n            tu.preview_image_thumbnail_url,\n            tu.preview_image_url\n            \n        FROM\n            news_feed_url as nfu\n            JOIN news_tweet_url as tu ON tu.id = nfu.url_id\n            JOIN news_twitter_user as u ON u.user_id = nfu.first_referenced_by\n        WHERE\n            nfu.created_at > $1  \n            AND nfu.is_climate_related = True  \n        ORDER BY\n            url_score DESC\n            -- num_references DESC\n        LIMIT $2 \n     "
+  },
   "b530c211264b4d0be60aba523d854e45a7aafad01e701fcb1a4aaad56b1ee63b": {
     "describe": {
       "columns": [
@@ -1159,67 +1333,47 @@
     },
     "query": "\n            INSERT INTO news_cron_job ( \n                started_at, started_at_str, completed_at, completed_at_str, error\n             )\n            VALUES ( $1, $2, $3, $4, $5)\n            RETURNING \n                id, started_at, started_at_str, completed_at, completed_at_str, error\n            "
   },
-  "c320f589d51ecc3f245203a1e68ee916081e68e05d417bbbc3f900f1322f0e3b": {
+  "be5aac250decb7a7211d1036677eb01a57a085595ccd6416ceec71fd21d2880d": {
     "describe": {
       "columns": [
         {
-          "name": "url_id",
+          "name": "url_slug",
           "ordinal": 0,
-          "type_info": "Int4"
+          "type_info": "Text"
         },
         {
-          "name": "url_score",
+          "name": "url_id",
           "ordinal": 1,
           "type_info": "Int4"
         },
         {
-          "name": "num_references",
+          "name": "url_score",
           "ordinal": 2,
           "type_info": "Int4"
         },
         {
-          "name": "first_referenced_by_username",
+          "name": "num_references",
           "ordinal": 3,
-          "type_info": "Text"
+          "type_info": "Int4"
         },
         {
-          "name": "created_at",
+          "name": "first_referenced_by",
           "ordinal": 4,
           "type_info": "Int8"
         },
         {
-          "name": "title",
+          "name": "is_climate_related",
           "ordinal": 5,
-          "type_info": "Text"
+          "type_info": "Bool"
         },
         {
-          "name": "description",
+          "name": "created_at",
           "ordinal": 6,
-          "type_info": "Text"
+          "type_info": "Int8"
         },
         {
-          "name": "expanded_url_parsed",
+          "name": "created_at_str",
           "ordinal": 7,
-          "type_info": "Text"
-        },
-        {
-          "name": "expanded_url_host",
-          "ordinal": 8,
-          "type_info": "Text"
-        },
-        {
-          "name": "display_url",
-          "ordinal": 9,
-          "type_info": "Text"
-        },
-        {
-          "name": "preview_image_thumbnail_url",
-          "ordinal": 10,
-          "type_info": "Text"
-        },
-        {
-          "name": "preview_image_url",
-          "ordinal": 11,
           "type_info": "Text"
         }
       ],
@@ -1229,22 +1383,15 @@
         false,
         false,
         false,
-        false,
-        false,
-        false,
-        false,
-        false,
         true,
-        true
+        false,
+        false
       ],
       "parameters": {
-        "Left": [
-          "Int8",
-          "Int8"
-        ]
+        "Left": []
       }
     },
-    "query": "\n        SELECT\n            nfu.url_id, \n            nfu.url_score,\n            nfu.num_references,\n            u.username as first_referenced_by_username,\n            nfu.created_at,\n            tu.title,\n            tu.description,\n            tu.expanded_url_parsed,\n            tu.expanded_url_host,\n            tu.display_url,\n            tu.preview_image_thumbnail_url,\n            tu.preview_image_url\n            \n        FROM\n            news_feed_url as nfu\n            JOIN news_tweet_url as tu ON tu.id = nfu.url_id\n            JOIN news_twitter_user as u ON u.user_id = nfu.first_referenced_by\n        WHERE\n            nfu.created_at > $1  \n            AND nfu.is_climate_related = True  \n        ORDER BY\n            url_score DESC\n            -- num_references DESC\n        LIMIT $2 \n     "
+    "query": "\n            SELECT url_slug, url_id, url_score, num_references, first_referenced_by, is_climate_related, created_at, created_at_str\n            FROM news_feed_url\n            WHERE \n                is_climate_related IS NULL \n                AND url_score > 10\n            ORDER BY url_score DESC\n            LIMIT 50\n            \n        "
   },
   "ca49a83c0d0f07a47a40ac3b4e64a90cdf461f764b4b415bfa3775136db35412": {
     "describe": {
@@ -1356,100 +1503,52 @@
     },
     "query": "\n            INSERT INTO news_tweet_url ( \n                url, expanded_url, expanded_url_parsed, expanded_url_host, display_url, is_twitter_url, is_english, title, description, preview_image_thumbnail_url, preview_image_url, created_at, created_at_str\n             )\n            VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)\n            RETURNING \n                id, url, expanded_url, expanded_url_parsed, expanded_url_host, display_url, is_twitter_url, is_english, title, description, preview_image_thumbnail_url, preview_image_url, created_at, created_at_str\n            "
   },
-  "cd35aa15924c8de4e6f9c0c080572359c125940c4439ce52f614b7cc5221c976": {
+  "db5d87e343afe9e50e44a796bed91def421929352a276df8a4e63b74fde91419": {
     "describe": {
       "columns": [
         {
-          "name": "url_id",
+          "name": "url_slug",
           "ordinal": 0,
-          "type_info": "Int4"
+          "type_info": "Text"
         },
         {
-          "name": "url_score",
+          "name": "url_id",
           "ordinal": 1,
           "type_info": "Int4"
         },
         {
-          "name": "num_references",
+          "name": "url_score",
           "ordinal": 2,
           "type_info": "Int4"
         },
         {
-          "name": "first_referenced_by",
+          "name": "num_references",
           "ordinal": 3,
+          "type_info": "Int4"
+        },
+        {
+          "name": "first_referenced_by",
+          "ordinal": 4,
           "type_info": "Int8"
         },
         {
           "name": "is_climate_related",
-          "ordinal": 4,
+          "ordinal": 5,
           "type_info": "Bool"
         },
         {
           "name": "created_at",
-          "ordinal": 5,
+          "ordinal": 6,
           "type_info": "Int8"
         },
         {
           "name": "created_at_str",
-          "ordinal": 6,
+          "ordinal": 7,
           "type_info": "Text"
         }
       ],
       "nullable": [
         false,
-        false,
-        false,
-        false,
-        true,
-        false,
-        false
-      ],
-      "parameters": {
-        "Left": []
-      }
-    },
-    "query": "\n            SELECT url_id, url_score, num_references, first_referenced_by, is_climate_related, created_at, created_at_str\n            FROM news_feed_url\n            WHERE \n                is_climate_related IS NULL \n                AND url_score > 10\n            ORDER BY url_score DESC\n            LIMIT 50\n            \n        "
-  },
-  "e44f9c81580d1ce39390e2cec513911eb1df20c856df5c3a7abb3388c82b6474": {
-    "describe": {
-      "columns": [
-        {
-          "name": "url_id",
-          "ordinal": 0,
-          "type_info": "Int4"
-        },
-        {
-          "name": "url_score",
-          "ordinal": 1,
-          "type_info": "Int4"
-        },
-        {
-          "name": "num_references",
-          "ordinal": 2,
-          "type_info": "Int4"
-        },
-        {
-          "name": "first_referenced_by",
-          "ordinal": 3,
-          "type_info": "Int8"
-        },
-        {
-          "name": "is_climate_related",
-          "ordinal": 4,
-          "type_info": "Bool"
-        },
-        {
-          "name": "created_at",
-          "ordinal": 5,
-          "type_info": "Int8"
-        },
-        {
-          "name": "created_at_str",
-          "ordinal": 6,
-          "type_info": "Text"
-        }
-      ],
-      "nullable": [
         false,
         false,
         false,
@@ -1460,17 +1559,11 @@
       ],
       "parameters": {
         "Left": [
-          "Int4",
-          "Int4",
-          "Int4",
-          "Int8",
-          "Bool",
-          "Int8",
           "Text"
         ]
       }
     },
-    "query": "\n            INSERT INTO news_feed_url ( \n                url_id, url_score, num_references, first_referenced_by, is_climate_related, created_at, created_at_str\n             )\n            VALUES ( $1, $2, $3, $4, $5, $6, $7)\n            RETURNING \n                url_id, url_score, num_references, first_referenced_by, is_climate_related, created_at, created_at_str\n            "
+    "query": "\n            SELECT url_slug, url_id, url_score, num_references, first_referenced_by, is_climate_related, created_at, created_at_str\n            FROM news_feed_url\n            WHERE url_slug = $1        \n        "
   },
   "e97cf152fa550e5b76388a126e7d377967e97de46f86d3efb696d66ef9cf0280": {
     "describe": {

@@ -4,6 +4,7 @@ use sqlx::FromRow;
 // News feed URL
 #[derive(FromRow, Deserialize, Serialize, Debug, Clone, async_graphql::SimpleObject)]
 pub struct NewsFeedUrl {
+    pub url_slug: String,
     pub url_id: i32,
     pub url_score: i32,
     pub num_references: i32,
