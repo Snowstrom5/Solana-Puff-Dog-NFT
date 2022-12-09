@@ -83,7 +83,7 @@ export default function NavBar(props: NavBarProps) {
                     className={classNames(
                       isCurrentRoute(props.pageRoute, item.href)
                         ? "text-gray-900 font-bold"
-                        : "text-gray-600 hover:text-gray-900 hover:text-underline",
+                        : "text-gray-700 hover:text-gray-900 hover:text-underline",
                       "py-2 px-4 inline-block no-underline"
                     )}
                     aria-current={

@@ -13,7 +13,7 @@ export default function BackButtonHeader() {
           }}
           className="hover:underline"
         >
-            <p className="text-base font-bold text-gray-600 mt-1">
+            <p className="text-base font-bold text-gray-700 mt-1">
               &larr; Back
             </p>
         </Link>
