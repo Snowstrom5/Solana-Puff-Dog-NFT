@@ -65,7 +65,7 @@ docker service logs climate_action_stack_caddy
 
 # Triggering a new Docker image build
 ```bash
-git tag -a v0.0.9 -m "adding url slug" && git push origin v0.0.9 
+git tag -a v0.0.10 -m "adding url slug" && git push origin v0.0.10 
 
 ```
 
