@@ -9,11 +9,11 @@ use sqlx::postgres::PgPool;
 
 pub async fn news_feed_url_references_query<'a>(
     pool: &PgPool,
-    url_id: i32,
+    url_slug: String,
 ) -> FieldResult<Vec<NewsFeedUrlReference>> {
     // TODO catch errors and return GQL error
     let news_feed_url_references_result: Option<Vec<NewsFeedUrlReferencesQuery>> =
-        get_news_feed_url_references(pool, url_id).await;
+        get_news_feed_url_references(pool, url_slug).await;
 
     if let Some(news_feed_url_references_query_list) = news_feed_url_references_result {
         let mut news_feed_url_references: Vec<NewsFeedUrlReference> = vec![];
@@ -99,7 +99,7 @@ mod tests {
             .execute(
                 r#"
                 query {
-                    newsFeedUrlReferences(urlId: 1) {
+                    newsFeedUrlReferences(urlSlug: "example-title") {
                         tweetId
                         tweetText
                         tweetCreatedAtStr
@@ -115,18 +115,18 @@ mod tests {
             value!({
                 "newsFeedUrlReferences": [
                     {
-                        "tweetId": String::from("1"),
-                        "tweetText": String::from("tweet_text"),
-                        "tweetCreatedAtStr": String::from("created_at_str"),
-                        "authorUsername": String::from("username"),
-                        "retweetedByUsernames": [String::from("@retweeted_username")],
-                    },
-                    {
                         "tweetId": String::from("3"),
                         "tweetText": String::from("quoted_tweet_text"),
                         "tweetCreatedAtStr": String::from("created_at_str"),
                         "authorUsername": String::from("quoted_username"),
                         "retweetedByUsernames": [],
+                    },
+                    {
+                        "tweetId": String::from("1"),
+                        "tweetText": String::from("tweet_text"),
+                        "tweetCreatedAtStr": String::from("created_at_str"),
+                        "authorUsername": String::from("username"),
+                        "retweetedByUsernames": [String::from("@retweeted_username")],
                     }
                 ],
             })

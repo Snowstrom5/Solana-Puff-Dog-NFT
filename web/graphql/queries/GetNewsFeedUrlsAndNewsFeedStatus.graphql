@@ -1,5 +1,6 @@
 query GetNewsFeedUrlsAndNewsFeedStatus {
   newsFeedUrls {
+    urlSlug
     urlId
     urlScore
     numReferences

@@ -5,7 +5,7 @@ use crate::queries::news_feed_url_references_query::NewsFeedUrlReferencesQuery;
 // TODO add user_score
 pub async fn get_news_feed_url_references(
     pool: &PgPool,
-    url_id: i32,
+    url_slug: String
 ) -> Option<Vec<NewsFeedUrlReferencesQuery>> {
     let news_feed_url_references_query_result = sqlx::query_as!(
         NewsFeedUrlReferencesQuery,
@@ -24,16 +24,17 @@ pub async fn get_news_feed_url_references(
             news_referenced_tweet_url as rtu 
             JOIN news_tweet_url as tu ON tu.id = rtu.url_id
             JOIN news_tweet as t ON t.tweet_id = rtu.tweet_id
+            JOIN news_feed_url as nfu ON nfu.url_id = rtu.url_id
             LEFT JOIN news_twitter_user as u ON t.author_id = u.user_id	
             LEFT JOIN news_twitter_referenced_user as ru ON t.author_id = ru.user_id
             LEFT JOIN news_referenced_tweet as rt ON t.tweet_id = rt.tweet_id
         WHERE
-            rtu.url_id = $1
+            nfu.url_slug = $1
             AND tu.is_twitter_url = False
             AND tu.title IS NOT NULL
             AND t.in_reply_to_user_id IS NULL
         "#,
-        url_id
+        url_slug
     )
     .fetch_all(pool)
     .await;

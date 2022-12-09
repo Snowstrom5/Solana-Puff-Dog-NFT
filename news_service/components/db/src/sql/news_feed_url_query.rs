@@ -46,7 +46,7 @@ pub async fn get_news_feed_urls(
 
 pub async fn get_news_feed_url(
     pool: &PgPool,
-    url_id: i32,
+    url_slug: String,
 ) -> Result<NewsFeedUrlQuery, sqlx::Error> {
     sqlx::query_as!(
         NewsFeedUrlQuery,
@@ -71,9 +71,9 @@ pub async fn get_news_feed_url(
             JOIN news_tweet_url as tu ON tu.id = nfu.url_id
             JOIN news_twitter_user as u ON u.user_id = nfu.first_referenced_by
         WHERE
-            nfu.url_id = $1
+            nfu.url_slug = $1
      "#,
-        url_id
+     url_slug
     )
     .fetch_one(pool)
     .await

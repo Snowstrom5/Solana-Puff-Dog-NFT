@@ -120,6 +120,7 @@ async fn get_user_tweets_and_references(
 }
 
 async fn update_news_twitter_users_scores(db_pool: &PgPool) -> Result<()> {
+    info!("update_news_twitter_users_scores - {:?}", Local::now());
     let news_twitter_users = find_all_news_twitter_users(db_pool).await?;
 
     for news_twitter_user in news_twitter_users {

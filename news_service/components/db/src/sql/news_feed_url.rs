@@ -123,6 +123,7 @@ pub async fn find_news_feed_url_by_url_slug(
 pub async fn find_top_news_feed_urls_without_is_climate_related_set(
     pool: &PgPool,
 ) -> Result<Vec<NewsFeedUrl>, sqlx::Error> {
+    // Limiting results to url_score >= 400 and a limit of 30 results to reduce OpenAI API fees
     let query = sqlx::query_as!(
         NewsFeedUrl,
         r#"
@@ -130,9 +131,9 @@ pub async fn find_top_news_feed_urls_without_is_climate_related_set(
             FROM news_feed_url
             WHERE 
                 is_climate_related IS NULL 
-                AND url_score > 10
+                AND url_score >= 400
             ORDER BY url_score DESC
-            LIMIT 50
+            LIMIT 30
             
         "#
     );

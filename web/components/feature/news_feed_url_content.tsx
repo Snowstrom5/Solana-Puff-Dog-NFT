@@ -44,12 +44,9 @@ export default function NewsFeedUrlContent(props: NewsFeedUrlContentProps) {
 
           {/* Image preview */}
           <div className="col-span-2">
-            <Link
-              href={{
-                pathname: "/news_feed/[url_id]",
-                query: { url_id: props.newsFeedUrl.urlId }
-              }}
-              className=" hover:underline"
+            <a
+              className="hover:underline"
+              href={props.newsFeedUrl?.expandedUrlParsed}
             >
               <img
                 className="mx-auto h-30 w-30 rounded lg:h-30 lg:w-30 lg:rounded-md"
@@ -58,9 +55,9 @@ export default function NewsFeedUrlContent(props: NewsFeedUrlContentProps) {
                     ? props.newsFeedUrl.previewImageThumbnailUrl
                     : "news_article_placeholder.png"
                 }
-                alt="TODO"
+                alt={props.newsFeedUrl?.title}
               />
-            </Link>
+            </a>
           </div>
         </div>
 

@@ -103,8 +103,6 @@ async fn populate_news_feed_urls_v1(
             )
             .await?;
         }
-        // create query to export NewsFeedUrl to csv as training_data every day
-        // add human_classification, gpt3_classification columns
     }
     update_is_climate_related_fields(db_pool).await?;
     Ok(())

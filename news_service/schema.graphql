@@ -7,6 +7,7 @@ type NewsFeedStatus {
 }
 
 type NewsFeedUrl {
+	urlSlug: String!
 	urlId: Int!
 	urlScore: Int!
 	numReferences: Int!
@@ -33,8 +34,8 @@ type NewsFeedUrlReference {
 type Query {
 	newsFeedStatus: NewsFeedStatus!
 	newsFeedUrls: [NewsFeedUrl!]!
-	newsFeedUrl(urlId: Int!): NewsFeedUrl!
-	newsFeedUrlReferences(urlId: Int!): [NewsFeedUrlReference!]!
+	newsFeedUrl(urlSlug: String!): NewsFeedUrl!
+	newsFeedUrlReferences(urlSlug: String!): [NewsFeedUrlReference!]!
 }
 
 

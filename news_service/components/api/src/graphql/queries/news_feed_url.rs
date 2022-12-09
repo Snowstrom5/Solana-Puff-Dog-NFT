@@ -6,9 +6,9 @@ use sqlx::postgres::PgPool;
 
 pub async fn news_feed_url_query<'a>(
     db_pool: &PgPool,
-    url_id: i32,
+    url_slug: String,
 ) -> FieldResult<NewsFeedUrlQuery> {
-    match get_news_feed_url(db_pool, url_id).await {
+    match get_news_feed_url(db_pool, url_slug).await {
         Ok(news_feed_url) => Ok(news_feed_url),
         Err(_) => Err(GqlError::NotFound.extend()),
     }
@@ -46,7 +46,7 @@ mod tests {
             .execute(
                 r#"
                 query {
-                    newsFeedUrl(urlId: 1) {
+                    newsFeedUrl(urlSlug: "example-title") {
                         urlSlug
                         urlId
                         urlScore

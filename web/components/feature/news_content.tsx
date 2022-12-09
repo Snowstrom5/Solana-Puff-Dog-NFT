@@ -49,8 +49,8 @@ export default function NewsContent(props: NewsContentProps) {
                     <p className="text-base text-gray-500 mt-1">
                       <Link
                         href={{
-                          pathname: "/news_feed/[url_id]",
-                          query: { url_id: newsFeedUrl.urlId }
+                          pathname: "/news_feed/[url_slug]",
+                          query: { url_slug: newsFeedUrl.urlSlug }
                         }}
                         className="hover:underline"
                       >
@@ -61,7 +61,7 @@ export default function NewsContent(props: NewsContentProps) {
 
                   {/* Image preview */}
                   <div className="col-span-2">
-                  <a
+                    <a
                       href={newsFeedUrl.expandedUrlParsed}
                       className="hover:underline"
                     >

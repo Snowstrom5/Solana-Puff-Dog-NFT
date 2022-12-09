@@ -29,18 +29,18 @@ impl Query {
     async fn news_feed_url<'a>(
         &self,
         ctx: &'a Context<'_>,
-        url_id: i32,
+        url_slug: String,
     ) -> FieldResult<NewsFeedUrlQuery> {
         let db_pool = ctx.data::<PgPool>()?;
-        news_feed_url_query(db_pool, url_id).await
+        news_feed_url_query(db_pool, url_slug).await
     }
 
     async fn news_feed_url_references<'a>(
         &self,
         ctx: &'a Context<'_>,
-        url_id: i32,
+        url_slug: String,
     ) -> FieldResult<Vec<NewsFeedUrlReference>> {
         let db_pool = ctx.data::<PgPool>()?;
-        news_feed_url_references_query(db_pool, url_id).await
+        news_feed_url_references_query(db_pool, url_slug).await
     }
 }

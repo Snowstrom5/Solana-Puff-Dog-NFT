@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function BackButtonHeader() {
   const router = useRouter();
@@ -6,11 +7,17 @@ export default function BackButtonHeader() {
     <>
       <div className="py-2 lg:py-6 bg-gray-200">
         <div className="container px-4 w-full md:max-w-3xl mx-auto">
-          <a className="hover:underline" href="#" onClick={() => router.back()}>
+        <Link
+          href={{
+            pathname: "/",
+          }}
+          className="hover:underline"
+        >
             <p className="text-base font-bold text-gray-600 mt-1">
               &larr; Back
             </p>
-          </a>
+        </Link>
+
         </div>
       </div>
     </>

@@ -1,5 +1,6 @@
-query GetNewsFeedUrlAndReferences($urlId: Int!) {
-  newsFeedUrl(urlId: $urlId) {
+query GetNewsFeedUrlAndReferences($urlSlug: String!) {
+  newsFeedUrl(urlSlug: $urlSlug) {
+    urlSlug
     urlId
     urlScore
     numReferences
@@ -13,7 +14,7 @@ query GetNewsFeedUrlAndReferences($urlId: Int!) {
     previewImageUrl
     displayUrl
   }
-  newsFeedUrlReferences(urlId: $urlId) {
+  newsFeedUrlReferences(urlSlug: $urlSlug) {
     tweetId
     tweetText
     tweetCreatedAtStr

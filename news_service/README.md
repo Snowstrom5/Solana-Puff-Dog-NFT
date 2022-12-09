@@ -11,9 +11,10 @@ cargo run --bin cron
 export DATABASE_URL=postgres://climate_action:climate_action@localhost:5432/climate_action_test 
 sqlx database drop -y && sqlx database create &&  sqlx migrate run
 # all tests
+export DATABASE_URL=postgres://climate_action:climate_action@localhost:5432/climate_action_test 
 cargo test -- --nocapture
 # individual test
-cargo test --package cron --bin cron -- graphql::queries::news_feed_urls::tests::get_news_feed_urls_test --exact --nocapture 
+ cargo test --package cron --bin cron -- graphql::queries::news_feed_urls::tests::get_news_feed_urls_test --exact --nocapture 
 
 ```
 

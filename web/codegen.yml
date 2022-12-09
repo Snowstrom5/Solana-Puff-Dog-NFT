@@ -9,4 +9,4 @@ generates:
       - "typescript-graphql-request"
     config:
       fetcher:
-        endpoint: "http://0.0.0.0:8000/graphql" 
+        endpoint: "http://0.0.0.0:8000/graphql"
