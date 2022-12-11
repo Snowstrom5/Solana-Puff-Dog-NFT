@@ -15,11 +15,11 @@ variable "aws_pem_file" {
 }
 
 variable "aws_instance_type" {
-  default = "t2.small"
+  default = "t2.micro"
 }
 
 variable "aws_base_ami" {
-  default = "ami-097a2df4ac947655f"
+  default = "ami-0283a57753b18025b"
 }
 
 variable "base_domain_name" {

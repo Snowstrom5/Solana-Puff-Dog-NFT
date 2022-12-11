@@ -13,11 +13,21 @@
     - name: ensure docker and dependencies are installed
       apt: name=docker-ce update_cache=yes
 
-    - service: name=docker state=restarted     
+    - service: name=docker state=restarted
 
-# TODO: 
-# download docker-compose.yaml file
-# create swarm     
-# sudo docker swarm init 
-# copy .env.dev and docker-compose file
-# env $(cat .env.dev | xargs) docker stack deploy --compose-file docker-compose.yaml climate_action_stack     
+    - name: Clone github repository
+      git:
+        repo: https://github.com/climatenews/services.git
+        dest: /home/ubuntu/services/
+        clone: yes
+        update: yes
+
+     
+
+
+# TODO
+## create swarm
+# sudo docker swarm init
+# copy .env.dev file
+## run swarm
+# env $(cat .env.dev | xargs) docker stack deploy --compose-file docker-compose.yaml climate_action_stack
