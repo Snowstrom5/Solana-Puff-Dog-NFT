@@ -11,7 +11,7 @@ variable "aws_key_name" {
 }
 
 variable "aws_pem_file" {
-  default = "~/.ssh/climatenews_app.pem"
+  default = "${SSH_FOLDER}/climatenews_app.pem"
 }
 
 variable "aws_instance_type" {
@@ -32,6 +32,11 @@ variable "terraform_state_bucket" {
 
 variable "terraform_state_lock_table" {
   default = "climate-news-terraform-state-lock-table"
+}
+
+variable "SSH_FOLDER" {
+    type        = string
+    description = "The folder where the AWS ssh keys are stored. e.g /home/<user>/.ssh It is set as an env variable. TF_VAR_SSH_FOLDER"
 }
 
 

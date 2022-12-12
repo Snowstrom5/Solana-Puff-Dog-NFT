@@ -4,7 +4,7 @@ use anyhow::{bail, Result};
 use db::util::time::lookup_period;
 use log::info;
 use tokio::time::{sleep, Duration};
-use twitter_v2::authorization::BearerToken;
+use twitter_v2::authorization::{BearerToken, Oauth2Token};
 use twitter_v2::id::NumericId;
 use twitter_v2::prelude::PaginableApiResponse;
 use twitter_v2::query::{Exclude, TweetExpansion, TweetField, UserField};
@@ -101,7 +101,7 @@ pub async fn get_users_by_author_id(
 }
 
 pub async fn post_tweet(
-    twitter_api: &TwitterApi<BearerToken>,
+    twitter_api: &TwitterApi<Oauth2Token>,
     text: String,
 ) -> Result<Option<Tweet>> {
     info!("Twitter API - post_tweet: {}", text);

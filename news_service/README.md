@@ -34,5 +34,6 @@ cd components/db
 sqlx database create --database-url postgres://climate_action:climate_action@localhost:5432/climate_action
 sqlx migrate run --database-url postgres://climate_action:climate_action@localhost:5432/climate_action
 sqlx migrate revert --database-url postgres://climate_action:climate_action@localhost:5432/climate_action
+sqlx database drop --database-url postgres://climate_action:climate_action@localhost:5432/climate_action
 
 ```
