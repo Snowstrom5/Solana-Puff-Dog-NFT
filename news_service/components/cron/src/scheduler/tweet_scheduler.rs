@@ -81,8 +81,8 @@ pub async fn tweet_cron_job(db_pool: &PgPool) -> Result<()> {
 
                     let tweet_text = get_tweet_text(news_feed_url);
                     info!("tweet_text- {}", tweet_text);
-                    let api_user_ctx = get_api_user_ctx().await;
-                    post_tweet(&api_user_ctx, String::from("test tweet")).await?;
+                    let _api_user_ctx = get_api_user_ctx().await;
+                    // post_tweet(&api_user_ctx, tweet_text).await?;
                     //Update tweeted_at value
                 }
                 None => {

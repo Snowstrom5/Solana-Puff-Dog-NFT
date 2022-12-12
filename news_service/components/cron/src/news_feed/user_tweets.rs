@@ -81,7 +81,7 @@ async fn fetch_user_tweets(db_pool: &PgPool, twitter_api: &TwitterApi<BearerToke
         let last_checked_minutes_diff = datetime_minutes_diff(news_twitter_user.last_checked_at);
 
         if last_checked_minutes_diff > 120 {
-            info!( "{} Updating tweets for:{}", i, news_twitter_user.username);
+            info!("{} Updating tweets for:{}", i, news_twitter_user.username);
 
             // Check if user last_checked is over 30 mins or has no recent tweets
             if let Err(err) = get_user_tweets_and_references(

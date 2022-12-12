@@ -18,13 +18,11 @@ pub async fn fetch_news_tweet_url_climate_classification(
     let title_and_description =
         format!("{} - {}", news_tweet_url.title, news_tweet_url.description);
 
-
     let result = fetch_text_climate_classification(title_and_description.clone()).await;
     info!(
         "OpenAI classification - result: {:?} - text: {}",
         result,
         title_and_description.clone()
-
     );
     result
 }
