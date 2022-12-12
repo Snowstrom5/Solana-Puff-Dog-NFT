@@ -326,78 +326,6 @@
     },
     "query": "\n            INSERT INTO news_twitter_user ( \n                user_id, username, profile_image_url, description, verified, followers_count, listed_count, user_referenced_tweets_count, user_score, last_tweet_id, last_updated_at, last_checked_at\n             )\n            VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)\n            RETURNING \n            user_id, username, profile_image_url, description, verified, followers_count, listed_count, user_referenced_tweets_count, user_score, last_tweet_id, last_updated_at, last_checked_at\n            "
   },
-  "2126301d7a8195e35d4d373f975c77b99ff359e6210db2fcb967ae4fd282cdc9": {
-    "describe": {
-      "columns": [
-        {
-          "name": "url_slug",
-          "ordinal": 0,
-          "type_info": "Text"
-        },
-        {
-          "name": "url_id",
-          "ordinal": 1,
-          "type_info": "Int4"
-        },
-        {
-          "name": "url_score",
-          "ordinal": 2,
-          "type_info": "Int4"
-        },
-        {
-          "name": "num_references",
-          "ordinal": 3,
-          "type_info": "Int4"
-        },
-        {
-          "name": "first_referenced_by",
-          "ordinal": 4,
-          "type_info": "Int8"
-        },
-        {
-          "name": "is_climate_related",
-          "ordinal": 5,
-          "type_info": "Bool"
-        },
-        {
-          "name": "created_at",
-          "ordinal": 6,
-          "type_info": "Int8"
-        },
-        {
-          "name": "created_at_str",
-          "ordinal": 7,
-          "type_info": "Text"
-        },
-        {
-          "name": "tweeted_at",
-          "ordinal": 8,
-          "type_info": "Int8"
-        },
-        {
-          "name": "tweeted_at_str",
-          "ordinal": 9,
-          "type_info": "Text"
-        }
-      ],
-      "nullable": [
-        false,
-        false,
-        false,
-        false,
-        false,
-        true,
-        false,
-        false,
-        true,
-        true
-      ],
-      "parameters": {
-        "Left": []
-      }
-    },
-    "query": "\n            SELECT url_slug, url_id, url_score, num_references, first_referenced_by, is_climate_related, created_at, created_at_str, tweeted_at, tweeted_at_str\n            FROM news_feed_url\n            WHERE \n                is_climate_related IS NULL \n                AND url_score >= 400\n            ORDER BY url_score DESC\n            LIMIT 30\n            \n        "
-  },
   "2ea795699fa6517a2a9e920df3bef27ed16dd6b68976a1c05a8088a2eb200266": {
     "describe": {
       "columns": [
@@ -1374,6 +1302,78 @@
       }
     },
     "query": "\n            SELECT list_id, last_checked_at\n            FROM news_twitter_list\n            WHERE list_id = $1;\n        "
+  },
+  "c722724daabc53019c1b162ac38896d79180aba208d62ab110f56290cc2e5416": {
+    "describe": {
+      "columns": [
+        {
+          "name": "url_slug",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "url_id",
+          "ordinal": 1,
+          "type_info": "Int4"
+        },
+        {
+          "name": "url_score",
+          "ordinal": 2,
+          "type_info": "Int4"
+        },
+        {
+          "name": "num_references",
+          "ordinal": 3,
+          "type_info": "Int4"
+        },
+        {
+          "name": "first_referenced_by",
+          "ordinal": 4,
+          "type_info": "Int8"
+        },
+        {
+          "name": "is_climate_related",
+          "ordinal": 5,
+          "type_info": "Bool"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 6,
+          "type_info": "Int8"
+        },
+        {
+          "name": "created_at_str",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "tweeted_at",
+          "ordinal": 8,
+          "type_info": "Int8"
+        },
+        {
+          "name": "tweeted_at_str",
+          "ordinal": 9,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": []
+      }
+    },
+    "query": "\n            SELECT url_slug, url_id, url_score, num_references, first_referenced_by, is_climate_related, created_at, created_at_str, tweeted_at, tweeted_at_str\n            FROM news_feed_url\n            WHERE \n                is_climate_related IS NULL \n            ORDER BY url_score DESC\n            LIMIT 20\n            \n        "
   },
   "ca49a83c0d0f07a47a40ac3b4e64a90cdf461f764b4b415bfa3775136db35412": {
     "describe": {

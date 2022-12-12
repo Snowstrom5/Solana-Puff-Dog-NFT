@@ -68,9 +68,9 @@ async fn populate_news_feed_urls_v1(
             (now_utc_timestamp() - first_tweet.created_at) / seconds_in_hour();
 
         // Calculate url score factoring in time decay
-        // A gravity of 0.4 is used in the ranking algorithm
+        // A gravity of 0.45 is used in the ranking algorithm
         // Set it to 0.5 for newer results or 0.3 to older results
-        let gravity = dec!(0.4);
+        let gravity = dec!(0.45);
         let time_decayed_url_score =
             time_decayed_url_score(gravity, url_score, hours_since_first_created);
 
@@ -80,7 +80,7 @@ async fn populate_news_feed_urls_v1(
         let url_slug = create_news_feed_url_slug(db_pool, *url_id).await?;
 
         let news_feed_url_db = find_news_feed_url_by_url_id(db_pool, *url_id).await;
-        if news_feed_url_db.is_none() {
+        if news_feed_url_db.is_none() && time_decayed_url_score > 0 {
             let news_feed_url = NewsFeedUrl {
                 url_slug,
                 url_id: *url_id,

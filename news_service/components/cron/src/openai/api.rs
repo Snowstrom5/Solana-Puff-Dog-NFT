@@ -15,13 +15,18 @@ const PROMPT_END: &str = " \n\n###\n\n";
 pub async fn fetch_news_tweet_url_climate_classification(
     news_tweet_url: NewsTweetUrlWithId,
 ) -> Result<bool> {
-    info!(
-        "OpenAI API - fetch_news_tweet_url_climate_classification {}",
-        news_tweet_url.title
-    );
     let title_and_description =
         format!("{} - {}", news_tweet_url.title, news_tweet_url.description);
-    fetch_text_climate_classification(title_and_description).await
+
+
+    let result = fetch_text_climate_classification(title_and_description.clone()).await;
+    info!(
+        "OpenAI classification - result: {:?} - text: {}",
+        result,
+        title_and_description.clone()
+
+    );
+    result
 }
 
 async fn fetch_text_climate_classification(text: String) -> Result<bool> {

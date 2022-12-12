@@ -11,6 +11,7 @@ use db::util::convert::{datetime_to_str, now_utc_datetime};
 use db::util::db::init_db;
 use log::{error, info};
 use sqlx::PgPool;
+use tokio::time::{sleep, Duration};
 
 pub async fn start_main_scheduler() {
     info!("start_main_scheduler - {:?}", Local::now());
@@ -20,6 +21,8 @@ pub async fn start_main_scheduler() {
         if let Err(err) = start_main_cron_job(&db_pool).await {
             error!("start_main_cron_job failed: {:?}", err);
         }
+        // Sleep for 1 minute
+        sleep(Duration::from_secs(60)).await;
     }
 }
 

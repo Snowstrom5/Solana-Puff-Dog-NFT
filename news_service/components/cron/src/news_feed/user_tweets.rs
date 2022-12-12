@@ -1,4 +1,3 @@
-use super::constants::TWITTER_LISTS;
 use crate::language::english_language_detector::EnglishLanguageDetector;
 use crate::news_feed::user_score::calc_user_score;
 use crate::twitter::api::get_list_members;
@@ -30,6 +29,8 @@ use sqlx::PgPool;
 use twitter_v2::authorization::BearerToken;
 use twitter_v2::{Tweet, TwitterApi, User};
 
+use super::constants::twitter_lists;
+
 pub async fn get_all_user_tweets(
     db_pool: &PgPool,
     twitter_api: &TwitterApi<BearerToken>,
@@ -45,7 +46,7 @@ pub async fn get_all_user_tweets(
 async fn fetch_users(db_pool: &PgPool, twitter_api: &TwitterApi<BearerToken>) -> Result<()> {
     // TODO move users to a list
     let mut users: Vec<User> = vec![];
-    for list_id in TWITTER_LISTS {
+    for list_id in twitter_lists() {
         let news_twitter_list = parse_twitter_list(db_pool, list_id).await?;
 
         let list_last_checked_hours_diff = datetime_hours_diff(news_twitter_list.last_checked_at);
@@ -62,7 +63,7 @@ async fn fetch_users(db_pool: &PgPool, twitter_api: &TwitterApi<BearerToken>) ->
     for user in users {
         parse_twitter_user(db_pool, &user).await.unwrap();
     }
-    for list_id in TWITTER_LISTS {
+    for list_id in twitter_lists() {
         // Update last_checked_at field once users are saved
         update_news_twitter_list_last_checked_at(db_pool, list_id, now_utc_timestamp())
             .await
@@ -78,13 +79,9 @@ async fn fetch_user_tweets(db_pool: &PgPool, twitter_api: &TwitterApi<BearerToke
     let news_twitter_users = find_all_news_twitter_users(db_pool).await?;
     for (i, news_twitter_user) in news_twitter_users.iter().enumerate() {
         let last_checked_minutes_diff = datetime_minutes_diff(news_twitter_user.last_checked_at);
-        let last_updated_minutes_diff = datetime_minutes_diff(news_twitter_user.last_updated_at);
 
         if last_checked_minutes_diff > 120 {
-            info!(
-                "{} Updating tweets for:{} last_checked {} mins ago, last_updated: {} mins ago",
-                i, news_twitter_user.username, last_checked_minutes_diff, last_updated_minutes_diff
-            );
+            info!( "{} Updating tweets for:{}", i, news_twitter_user.username);
 
             // Check if user last_checked is over 30 mins or has no recent tweets
             if let Err(err) = get_user_tweets_and_references(

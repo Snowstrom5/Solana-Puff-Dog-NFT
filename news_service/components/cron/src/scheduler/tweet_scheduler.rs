@@ -1,8 +1,7 @@
 use crate::twitter::api::post_tweet;
-use crate::twitter::init_twitter_api;
 use crate::twitter::oauth::get_api_user_ctx;
 use anyhow::Result;
-use chrono::{Local};
+use chrono::Local;
 use db::constants::{NEWS_FEED_URLS_LIMIT, NEWS_FEED_URLS_NUM_DAYS};
 use db::models::news_cron_job::{CronType, NewsCronJob};
 use db::queries::news_feed_url_query::NewsFeedUrlQuery;
@@ -13,7 +12,7 @@ use db::sql::news_feed_url_query::get_news_feed_urls;
 use db::util::convert::{datetime_to_str, now_utc_datetime};
 use db::util::db::init_db;
 use db::util::time::past_days;
-use log::{error, info};
+use log::{error, info, warn};
 use sqlx::PgPool;
 // use tokio_schedule::{every, Job};
 
@@ -87,7 +86,7 @@ pub async fn tweet_cron_job(db_pool: &PgPool) -> Result<()> {
                     //Update tweeted_at value
                 }
                 None => {
-                    info!("all news_feed_urls have been shared on Twitter");
+                    warn!("all news_feed_urls have been shared on Twitter");
                 }
             }
         }
@@ -110,12 +109,10 @@ pub fn get_tweet_text(news_feed_url: &NewsFeedUrlQuery) -> String {
         Article link: {}
         #ClimateNews 
         "#,
-        news_feed_url.title, 
-        news_feed_url.url_slug, 
-        news_feed_url.first_referenced_by_username, 
-        news_feed_url.num_references -1, 
+        news_feed_url.title,
+        news_feed_url.url_slug,
+        news_feed_url.first_referenced_by_username,
+        news_feed_url.num_references - 1,
         news_feed_url.expanded_url_parsed
     )
 }
-
-
