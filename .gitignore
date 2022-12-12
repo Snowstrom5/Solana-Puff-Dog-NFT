@@ -2,3 +2,4 @@
 .env.dev
 /.env.localhost
 /news_service/.oauth2_token.json
+/.oauth2_token.json
