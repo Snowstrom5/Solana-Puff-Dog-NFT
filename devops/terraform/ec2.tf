@@ -17,7 +17,7 @@ resource "aws_instance" "climate-news-service" {
   connection {
     type        = "ssh"
     user        = "ubuntu"
-    private_key = file(var.aws_pem_file)
+    private_key = file("${var.SSH_FOLDER}/${var.aws_pem_file}")
     host        = self.public_ip
   }
 

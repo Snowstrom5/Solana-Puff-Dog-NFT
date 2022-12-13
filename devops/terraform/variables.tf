@@ -11,15 +11,15 @@ variable "aws_key_name" {
 }
 
 variable "aws_pem_file" {
-  default = "${SSH_FOLDER}/climatenews_app.pem"
+  default = "climatenews_app.pem"
 }
 
 variable "aws_instance_type" {
-  default = "t2.micro"
+  default = "t2.small"
 }
 
 variable "aws_base_ami" {
-  default = "ami-0283a57753b18025b"
+  default = "ami-097a2df4ac947655f"
 }
 
 variable "base_domain_name" {
