@@ -39,10 +39,10 @@ pub async fn health(data: web::Data<AppState>) -> Result<HttpResponse> {
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     init_env();
-    // Start mainscheduler on a new thread
-    actix_rt::spawn(async move {
-        start_main_scheduler().await;
-    });
+    // // Start mainscheduler on a new thread
+    // actix_rt::spawn(async move {
+    //     start_main_scheduler().await;
+    // });
 
     // Start tweet scheduler on a new thread
     actix_rt::spawn(async move {

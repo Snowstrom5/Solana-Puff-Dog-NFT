@@ -22,6 +22,9 @@ use tokio_schedule::{every, Job};
 pub async fn start_tweet_scheduler() {
     info!("start_tweet_scheduler - {:?}", Local::now());
     let db_pool = init_db().await;
+    if let Err(err) = start_tweet_cron_job(&db_pool).await {
+        println!("start_tweet_cron_job failed: {:?}", err);
+    }
     let tweet_scheduler = every(2).hours().in_timezone(&Utc).perform(|| async {
         if let Err(err) = start_tweet_cron_job(&db_pool).await {
             println!("start_tweet_cron_job failed: {:?}", err);
