@@ -119,6 +119,7 @@ pub fn get_tweet_text(news_feed_url: &NewsFeedUrlQuery) -> String {
         r#"{}
 
 More info: https://climatenews.app/news_feed/{}
+
 {}
 
 Article link: {}
@@ -132,7 +133,7 @@ Article link: {}
 
 // TODO avoid duplicating this logic on web and backend
 pub fn tweet_shared_by_text(news_feed_url: &NewsFeedUrlQuery) -> String {
-    let shared_by_text = format!("Shared by: @{}", news_feed_url.first_referenced_by_username);
+    let shared_by_text = format!("Shared by @{}", news_feed_url.first_referenced_by_username);
     let mut num_references_text = String::from("");
     if news_feed_url.num_references > 2 {
         num_references_text = format!("and {} others", news_feed_url.num_references - 1);
@@ -168,7 +169,7 @@ mod tests {
 
         assert_eq!(
             get_tweet_text(&news_feed_url_query),
-            String::from("Example Title\n\nMore info: https://climatenews.app/news_feed/example-slug\nShared by: @climatenews_app and 1 other\n\nArticle link: https://www.theguardian.com/environment/2022/dec/12/brazil-goldminers-carve-road-to-chaos-amazon-reserve\n#ClimateNews")
+            String::from("Example Title\n\nMore info: https://climatenews.app/news_feed/example-slug\n\nShared by @climatenews_app and 1 other\n\nArticle link: https://www.theguardian.com/environment/2022/dec/12/brazil-goldminers-carve-road-to-chaos-amazon-reserve\n#ClimateNews")
     );
     }
 }
