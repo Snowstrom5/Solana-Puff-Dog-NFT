@@ -74,6 +74,6 @@ docker service logs climate_action_stack_caddy
 
 # Triggering a new Docker image build
 ```bash
-git tag -a v0.0.17 -m "tweet cron job test" && git push origin v0.0.17 
+git tag -a v0.0.18 -m "Updating og_image" && git push origin v0.0.18
 
 ```
