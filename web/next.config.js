@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 
-const securityHeaders = [
+const headers = [
+  // security headers
+  // TODO: Add Content-Security-Policy header
   {
     key: "X-DNS-Prefetch-Control",
     value: "on"
@@ -28,8 +30,12 @@ const securityHeaders = [
   {
     key: "Referrer-Policy",
     value: "strict-origin-when-cross-origin"
+  },
+  // Cache header - 1 min
+  {
+    key: "Cache-Control",
+    value: "public, max-age=60, stale-while-revalidate"
   }
-  // Add Content-Security-Policy header here!
 ];
 
 module.exports = {
@@ -51,7 +57,18 @@ module.exports = {
     return [
       {
         source: "/(.*)",
-        headers: securityHeaders
+        headers: headers
+      },
+      {
+        // cache images for 1 week
+        source: "/:all*(svg|jpg|png)",
+        locale: false,
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=604800, stale-while-revalidate"
+          }
+        ]
       }
     ];
   }

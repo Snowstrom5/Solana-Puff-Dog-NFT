@@ -25,9 +25,9 @@ export default function AboutContent() {
               Twitter.
             </p>
 
-          <p className="mt-8 text-xl font-extrabold tracking-tight text-gray-900">
-            Twitter Lists
-          </p>
+            <p className="mt-8 text-xl font-extrabold tracking-tight text-gray-900">
+              Twitter Lists
+            </p>
             <p className="mx-auto mt-5  text-lg text-gray-700">
               3500+ Twitter accounts are imported from the lists below to
               generate the user list:
@@ -81,8 +81,8 @@ export default function AboutContent() {
               </li>
             </ul>
             <p className="mt-8 text-xl font-extrabold tracking-tight text-gray-900">
-            News Feed
-          </p>
+              News Feed
+            </p>
             <p className="mx-auto mt-5  text-lg text-gray-700">
               The news feed uses a ranking algorithm to find trending articles.
             </p>
@@ -115,8 +115,8 @@ export default function AboutContent() {
               articles appear in the news feed.
             </p>
             <p className="mt-8 text-xl font-extrabold tracking-tight text-gray-900">
-            Source Code
-          </p>
+              Source Code
+            </p>
             <p className="mx-auto mt-5 text-lg text-gray-700">
               Our source code is available on{" "}
               <Link
@@ -129,8 +129,8 @@ export default function AboutContent() {
               Contributions are welcome!
             </p>
             <p className="mt-8 text-xl font-extrabold tracking-tight text-gray-900">
-            About Us
-          </p>
+              About Us
+            </p>
             <p className="mx-auto mt-5  text-lg text-gray-700">
               Made with 💚 in Nanaimo, Canada by{" "}
               <Link
