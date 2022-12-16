@@ -25,22 +25,13 @@ resource "aws_route53_record" "mx" {
   ]
 }
 
-# TXT record - Email
-resource "aws_route53_record" "txt_email" {
+# TXT record - Email & Google site verification
+resource "aws_route53_record" "txt" {
   zone_id = aws_route53_zone.production.id
   name    = var.base_domain_name
   type    = "TXT"
   ttl     = 300
-  records = ["v=spf1 include:spf.privateemail.com ~all"]
-}
-
-# TXT record - Google site verification
-resource "aws_route53_record" "txt_google_verification" {
-  zone_id = aws_route53_zone.production.id
-  name    = var.base_domain_name
-  type    = "TXT"
-  ttl     = 300
-  records = ["google-site-verification=qkOoX9PBrekUIPcRDFsG0fFvALzzWwVNcg4QXl2XuBI"]
+  records = ["v=spf1 include:spf.privateemail.com ~all", "google-site-verification=qkOoX9PBrekUIPcRDFsG0fFvALzzWwVNcg4QXl2XuBI"]
 }
 
 # A record pointing to elastic ip
