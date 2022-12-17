@@ -29,3 +29,26 @@ export function timeSince(timestamp?: number): string {
 }
 
 export const getCurrentYear = () => new Date().getFullYear();
+
+export const getMonthsSinceLaunch = () => {
+  // Site launched in Dec-2022
+  const FROM_YEAR = 2022;
+  const FROM_MONTH = 12;
+  const currentDate = new Date();
+  const toYear = currentDate.getFullYear();
+  const toMonth = currentDate.getMonth();
+  // Include start month
+  const months = [{ year: FROM_YEAR, month: FROM_MONTH }];
+
+  // Add the months since the start month to current month
+  for (let year = FROM_YEAR; year <= toYear; year++) {
+    let monthNum = year === FROM_YEAR ? FROM_MONTH : 0;
+    const monthLimit = year === toYear ? toMonth : 11;
+
+    for (; monthNum <= monthLimit; monthNum++) {
+      let month = monthNum + 1;
+      months.push({ year, month });
+    }
+  }
+  return months;
+};

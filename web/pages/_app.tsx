@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       // disable in development mode
       if (process.env.NODE_ENV === "development") posthog.opt_out_capturing();
     },
-    persistence: 'memory', // Avoids the use of cookies
+    persistence: "memory" // Avoids the use of cookies
   });
 
   return (

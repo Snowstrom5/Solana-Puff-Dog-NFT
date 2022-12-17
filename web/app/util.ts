@@ -1,6 +1,8 @@
 import { NewsFeedUrl } from "graphql/generated/graphql";
 import { timeSince } from "app/time";
 
+export type Nullable<T> = T | null;
+
 export const unescapeHTML = (str: string) =>
   str.replace(
     /&amp;|&lt;|&gt;|&#39;|&quot;/g,
@@ -37,4 +39,14 @@ export function retweetedByText(retweetedByUsernames: String[]): String {
 
 export function dateText(newsFeedUrl: NewsFeedUrl): String {
   return timeSince(newsFeedUrl.createdAt);
+}
+
+export const BASE_DOMAIN_NAME = baseDomainName();
+
+function baseDomainName(): string {
+  if (process.env.NODE_ENV === "development") {
+    return "http://localhost:3000";
+  } else {
+    return "https://climatenews.app";
+  }
 }
