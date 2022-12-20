@@ -185,7 +185,6 @@ pub async fn find_news_feed_url_slugs_within_date_range(
     query.fetch_all(pool).await
 }
 
-
 pub async fn truncate_news_feed_url(pool: &PgPool) -> anyhow::Result<()> {
     sqlx::query("TRUNCATE news_feed_url RESTART IDENTITY")
         .execute(pool)

@@ -6,7 +6,6 @@ use crate::graphql::queries::news_feed_urls::news_feed_urls_query;
 use crate::graphql::Query;
 use async_graphql::{Context, FieldResult, Object};
 use db::models::news_cron_job::NewsCronJob;
-use db::models::news_feed_url::NewsFeedUrlSlug;
 use db::models::news_feed_url_reference::NewsFeedUrlReference;
 use db::queries::news_feed_url_query::NewsFeedUrlQuery;
 use sqlx::postgres::PgPool;
@@ -52,7 +51,7 @@ impl Query {
         ctx: &'a Context<'_>,
         month: i32,
         year: i32,
-    ) -> FieldResult<Vec<NewsFeedUrlSlug>> {
+    ) -> FieldResult<Vec<String>> {
         let db_pool = ctx.data::<PgPool>()?;
         sitemap_news_feed_url_slugs_query(db_pool, month, year).await
     }

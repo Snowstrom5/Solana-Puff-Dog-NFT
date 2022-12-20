@@ -1,0 +1,3 @@
+query GetSitemapNewsFeedUrlSlugs($month: Int!, $year: Int!) {
+  sitemapNewsFeedUrlSlugs(month: $month, year: $year)
+}

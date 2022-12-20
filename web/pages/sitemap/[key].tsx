@@ -1,4 +1,6 @@
 import { BASE_DOMAIN_NAME, Nullable } from "app/util";
+import { graphQLClient } from "graphql/client";
+import { getSdk } from "graphql/generated/graphql";
 
 export default function SitemapIndex() {}
 
@@ -37,9 +39,14 @@ export async function getServerSideProps(context: any) {
   if (key === "main") {
     sitemap = generateMainSiteMap();
   } else {
-    // TODO fetch url_slugs from Graphql
-    const url_slugs = ["abc", "123"];
-    sitemap = generateSiteMap(url_slugs);
+    // Example key: 12-2022.xml
+    const month_year = key.replace(".xml", "").split("-");
+    const sdk = getSdk(graphQLClient);
+    const response = await sdk.GetSitemapNewsFeedUrlSlugs({
+      month: Number(month_year[0]),
+      year: Number(month_year[1])
+    });
+    sitemap = generateSiteMap(response.sitemapNewsFeedUrlSlugs);
   }
 
   const res = context.res;

@@ -36,6 +36,7 @@ type Query {
 	newsFeedUrls: [NewsFeedUrl!]!
 	newsFeedUrl(urlSlug: String!): NewsFeedUrl!
 	newsFeedUrlReferences(urlSlug: String!): [NewsFeedUrlReference!]!
+	sitemapNewsFeedUrlSlugs(month: Int!, year: Int!): [String!]!
 }
 
 
