@@ -74,6 +74,6 @@ docker service logs climate_action_stack_caddy
 
 # Triggering a new Docker image build
 ```bash
-git tag -a v0.0.21 -m "Setting up caching" && git push origin v0.0.21
+git tag -a v0.0.21 -m "Setting up sitemap" && git push origin v0.0.21
 
 ```
