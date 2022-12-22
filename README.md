@@ -75,6 +75,6 @@ docker stack rm climate_news_stack
 # Triggering a new Docker image build
 ```bash
 
-git tag -a v0.0.25 -m "updating db indexes" && git push origin v0.0.25
+git tag -a v0.0.27 -m "reverting db indexes" && git push origin v0.0.27
 
 ```
