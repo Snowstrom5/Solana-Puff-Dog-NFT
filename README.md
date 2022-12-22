@@ -42,38 +42,39 @@ docker-compose logs --tail="all" -f
 docker swarm init 
 
 # Deploy the stack
-env $(cat .env.dev | xargs) docker stack deploy --compose-file docker-compose.yaml climate_action_stack 
-
-# Remove the stack
-docker stack rm climate_action_stack
+env $(cat .env.dev | xargs) docker stack deploy --compose-file docker-compose.yaml climate_news_stack 
 
 # Display stack info
-docker stack ps climate_action_stack
+docker stack ps climate_news_stack
 
 # Display service info
-docker service ps climate_action_stack_news_cron
+docker service ps climate_news_stack_news_cron
 
 # Inspect a service
-docker service inspect --pretty climate_action_stack_news_cron
+docker service inspect --pretty climate_news_stack_news_cron
 
 # Restart a service
-docker service update --force climate_action_stack_news_cron
+docker service update --force climate_news_stack_news_cron
 
 # Run a command in a container
 docker container ls
 docker exec -it f855a1118d35 /bin/bash
 
 # Stack logs for a service
-docker service logs climate_action_stack_db --follow
-docker service logs climate_action_stack_news_api --follow
-docker service logs climate_action_stack_news_cron --follow
-docker service logs climate_action_stack_web --follow
-docker service logs climate_action_stack_caddy
+docker service logs climate_news_stack_db --follow
+docker service logs climate_news_stack_news_api --follow
+docker service logs climate_news_stack_news_cron --follow
+docker service logs climate_news_stack_web --follow
+docker service logs climate_news_stack_caddy
+
+# Remove the stack
+docker stack rm climate_news_stack
 
 ```
 
 # Triggering a new Docker image build
 ```bash
-git tag -a v0.0.23 -m "sitemap bug fix #2" && git push origin v0.0.23
+
+git tag -a v0.0.25 -m "updating db indexes" && git push origin v0.0.25
 
 ```

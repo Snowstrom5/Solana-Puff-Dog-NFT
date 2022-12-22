@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2.2.0
       - name: Build api
         run: SQLX_OFFLINE=true cargo build --release --verbose --bin api    
       # - name: Run tests
