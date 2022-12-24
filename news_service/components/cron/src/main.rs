@@ -45,10 +45,10 @@ async fn main() -> std::io::Result<()> {
         start_main_scheduler().await;
     });
 
-    // Start tweet scheduler on a new thread
-    actix_rt::spawn(async move {
-        start_tweet_scheduler().await;
-    });
+    // // Start tweet scheduler on a new thread
+    // actix_rt::spawn(async move {
+    //     start_tweet_scheduler().await;
+    // });
 
     let host = env::var("CRON_HOST").expect("HOST is not set");
     let port = env::var("CRON_PORT").expect("PORT is not set");
