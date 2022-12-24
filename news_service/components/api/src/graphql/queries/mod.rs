@@ -18,7 +18,7 @@ pub mod sitemap_news_feed_url_slugs;
 
 #[Object(extends)]
 impl Query {
-    async fn news_feed_status<'a>(&self, ctx: &'a Context<'_>) -> FieldResult<NewsCronJob> {
+    async fn news_feed_status<'a>(&self, ctx: &'a Context<'_>) -> FieldResult<Option<NewsCronJob>> {
         let db_pool = ctx.data::<PgPool>()?;
         news_feed_status_query(db_pool).await
     }

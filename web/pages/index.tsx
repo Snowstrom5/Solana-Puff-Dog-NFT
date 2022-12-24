@@ -7,7 +7,7 @@ import NavBar from "components/generic/navbar";
 
 interface NewsPageProps {
   newsFeedUrls: NewsFeedUrl[];
-  newsFeedStatus: NewsFeedStatus;
+  newsFeedStatus?: NewsFeedStatus;
 }
 
 const NewsPage: NextPage<NewsPageProps> = ({

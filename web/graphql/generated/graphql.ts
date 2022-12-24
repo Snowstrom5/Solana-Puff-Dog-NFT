@@ -49,7 +49,7 @@ export type NewsFeedUrlReference = {
 
 export type Query = {
   __typename?: 'Query';
-  newsFeedStatus: NewsFeedStatus;
+  newsFeedStatus?: Maybe<NewsFeedStatus>;
   newsFeedUrl: NewsFeedUrl;
   newsFeedUrlReferences: Array<NewsFeedUrlReference>;
   newsFeedUrls: Array<NewsFeedUrl>;
@@ -82,7 +82,7 @@ export type GetNewsFeedUrlAndReferencesQuery = { __typename?: 'Query', newsFeedU
 export type GetNewsFeedUrlsAndNewsFeedStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetNewsFeedUrlsAndNewsFeedStatusQuery = { __typename?: 'Query', newsFeedUrls: Array<{ __typename?: 'NewsFeedUrl', urlSlug: string, urlId: number, urlScore: number, numReferences: number, firstReferencedByUsername: string, createdAt: number, title: string, description: string, expandedUrlParsed: string, expandedUrlHost: string, previewImageThumbnailUrl?: string | null, previewImageUrl?: string | null, displayUrl: string }>, newsFeedStatus: { __typename?: 'NewsFeedStatus', completedAt?: number | null } };
+export type GetNewsFeedUrlsAndNewsFeedStatusQuery = { __typename?: 'Query', newsFeedUrls: Array<{ __typename?: 'NewsFeedUrl', urlSlug: string, urlId: number, urlScore: number, numReferences: number, firstReferencedByUsername: string, createdAt: number, title: string, description: string, expandedUrlParsed: string, expandedUrlHost: string, previewImageThumbnailUrl?: string | null, previewImageUrl?: string | null, displayUrl: string }>, newsFeedStatus?: { __typename?: 'NewsFeedStatus', completedAt?: number | null } | null };
 
 export type GetSitemapNewsFeedUrlSlugsQueryVariables = Exact<{
   month: Scalars['Int'];

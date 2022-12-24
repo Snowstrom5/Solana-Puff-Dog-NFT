@@ -6,12 +6,12 @@ import { timeSince } from "app/time";
 
 interface NewsContentProps {
   newsFeedUrls: NewsFeedUrl[];
-  newsFeedStatus: NewsFeedStatus;
+  newsFeedStatus?: NewsFeedStatus;
 }
 
 export default function NewsContent(props: NewsContentProps) {
   let lastUpdated = "";
-  if (props.newsFeedStatus.completedAt) {
+  if (props.newsFeedStatus?.completedAt) {
     lastUpdated = timeSince(props.newsFeedStatus.completedAt);
   }
 

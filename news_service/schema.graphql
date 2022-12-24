@@ -32,7 +32,7 @@ type NewsFeedUrlReference {
 }
 
 type Query {
-	newsFeedStatus: NewsFeedStatus!
+	newsFeedStatus: NewsFeedStatus
 	newsFeedUrls: [NewsFeedUrl!]!
 	newsFeedUrl(urlSlug: String!): NewsFeedUrl!
 	newsFeedUrlReferences(urlSlug: String!): [NewsFeedUrlReference!]!
