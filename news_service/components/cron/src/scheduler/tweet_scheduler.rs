@@ -1,3 +1,4 @@
+use crate::slack::send_tweet_cron_message;
 use crate::twitter::api::post_tweet;
 use crate::twitter::oauth::get_api_user_ctx;
 use anyhow::Result;
@@ -23,11 +24,15 @@ use sqlx::PgPool;
 use tokio_schedule::{every, Job};
 
 pub async fn start_tweet_scheduler() {
-    info!("start_tweet_scheduler - {:?}", Local::now());
     let db_pool = init_db().await;
     let tweet_scheduler = every(2).hours().in_timezone(&Utc).perform(|| async {
-        if let Err(err) = start_tweet_cron_job(&db_pool).await {
-            println!("start_tweet_cron_job failed: {:?}", err);
+        match start_tweet_cron_job(&db_pool).await {
+            Ok(_) => {
+                send_tweet_cron_message(format!("tweet_cron_job ended - {:?}", Local::now()));
+            }
+            Err(err) => {
+                error!("tweet_cron_job failed: {:?}", err);
+            }
         }
     });
     tweet_scheduler.await;
@@ -58,7 +63,7 @@ pub async fn start_tweet_cron_job(db_pool: &PgPool) -> anyhow::Result<()> {
         }
         Err(err) => {
             update_news_cron_job_error(&db_pool, news_cron_job_db.id, err.to_string()).await?;
-            error!("tweet_cron_job failed: {:?}", err);
+            send_tweet_cron_message(format!("tweet_cron_job failed: {:?}", err));
         }
     }
     Ok(())
@@ -191,11 +196,9 @@ pub fn tweet_shared_by_text(news_feed_url_references: &Vec<NewsFeedUrlReferences
                 } else {
                     String::from(", @")
                 };
-                let suffix = 
-                if news_feed_url_references.len() == 4 {
+                let suffix = if news_feed_url_references.len() == 4 {
                     String::from(" and 1 other")
-                }
-                else if news_feed_url_references.len() > 4 {
+                } else if news_feed_url_references.len() > 4 {
                     format!(" and {} others", news_feed_url_references.len() - 3)
                 } else {
                     String::from("")

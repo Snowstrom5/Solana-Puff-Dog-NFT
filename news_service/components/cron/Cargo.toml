@@ -61,5 +61,8 @@ serde_json = { version = "1.0.64" }
 # A macro for declaring lazily evaluated statics
 lazy_static = "1.4.0"
 
+# Slack
+slack-hook = "0.8.0" 
+
 # Workaround for https://github.com/gyscos/zstd-rs/issues/177
 zstd-sys = "=2.0.1+zstd.1.5.2"

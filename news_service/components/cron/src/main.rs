@@ -11,6 +11,7 @@ pub mod language;
 pub mod news_feed;
 pub mod openai;
 pub mod scheduler;
+pub mod slack;
 pub mod twitter;
 pub mod util;
 

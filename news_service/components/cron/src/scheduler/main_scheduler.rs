@@ -1,5 +1,6 @@
 use crate::news_feed::algorithm::news_feed_v1::populate_news_feed_v1;
 use crate::news_feed::user_tweets::get_all_user_tweets;
+use crate::slack::send_main_cron_message;
 use crate::twitter::init_twitter_api;
 use anyhow::Result;
 use chrono::Local;
@@ -14,15 +15,20 @@ use sqlx::PgPool;
 use tokio::time::{sleep, Duration};
 
 pub async fn start_main_scheduler() {
-    info!("start_main_scheduler - {:?}", Local::now());
     let db_pool = init_db().await;
     loop {
         // cron job continuous loop
-        if let Err(err) = start_main_cron_job(&db_pool).await {
-            error!("start_main_cron_job failed: {:?}", err);
+        send_main_cron_message(format!("main_cron_job started - {:?}", Local::now()));
+        match start_main_cron_job(&db_pool).await {
+            Ok(_) => {
+                send_main_cron_message(format!("main_cron_job ended - {:?}", Local::now()));
+            }
+            Err(err) => {
+                error!("main_cron_job failed: {:?}", err);
+            }
         }
-        // Sleep for 1 minute
-        sleep(Duration::from_secs(60)).await;
+        // Sleep for 10 minutes
+        sleep(Duration::from_secs(10 * 60)).await;
     }
 }
 
@@ -52,6 +58,7 @@ pub async fn start_main_cron_job(db_pool: &PgPool) -> anyhow::Result<()> {
         Err(err) => {
             update_news_cron_job_error(&db_pool, news_cron_job_db.id, err.to_string()).await?;
             error!("main_cron_job failed: {:?}", err);
+            send_main_cron_message(format!("main_cron_job failed: {:?}", err));
         }
     }
     Ok(())
