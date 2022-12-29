@@ -18,21 +18,21 @@
         group: ubuntu 
         remote_src: true      
 
-    # - name: Copy db backup crontab file
-    #   ansible.builtin.copy:
-    #     src: /home/ubuntu/services/devops/cron/postgres-backup.sh
-    #     dest: /usr/local/bin/postgres-backup.sh
-    #     owner: root
-    #     group: root
-    #     mode: '0644' 
-            # remote_src: true        
+    - name: Copy db backup crontab file
+      ansible.builtin.copy:
+        src: /home/ubuntu/services/devops/cron/postgres-backup.sh
+        dest: /usr/local/bin/postgres-backup.sh
+        owner: root
+        group: root
+        mode: '0644' 
+        remote_src: true        
 
-    # - name: Create daily backup cronjob 
-    #   cron: minute="0" hour="0" 
-    #         name="Backup postgres database (daily schedule)"
-    #         cron_file="postgres-backup-daily"
-    #         user="root"
-    #         job="export $(xargs < /home/ubuntu/.env.dev); /usr/local/bin/postgres-backup.sh"       
+    - name: Create daily database backup cronjob 
+      cron: minute="0" hour="0" 
+            name="Backup postgres database (daily schedule)"
+            cron_file="postgres-backup-daily"
+            user="root"
+            job="export $(xargs < /home/ubuntu/.env.dev); /usr/local/bin/postgres-backup.sh"       
 
      
 

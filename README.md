@@ -60,12 +60,12 @@ docker service update --force climate_news_stack_news_cron
 docker container ls
 docker exec -it f855a1118d35 /bin/bash
 
-# Stack logs for a service
-docker service logs climate_news_stack_db --follow
-docker service logs climate_news_stack_news_api --follow
-docker service logs climate_news_stack_news_cron --follow
-docker service logs climate_news_stack_web --follow
-docker service logs climate_news_stack_caddy
+# Logs for a service
+docker service logs -f --since 1h climate_news_stack_db
+docker service logs -f --since 1h climate_news_stack_news_api
+docker service logs -f --since 1h climate_news_stack_news_cron
+docker service logs -f --since 1h climate_news_stack_web
+docker service logs -f --since 1h climate_news_stack_caddy
 
 # Remove the stack
 docker stack rm climate_news_stack
