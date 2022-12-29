@@ -13,7 +13,10 @@ services:
       depends_on:
         - web
       networks:
-        - client-side   
+        - client-side  
+      env_file:
+        - .env.dev
+
 
   web:
     image: climatenews/web:latest
@@ -36,6 +39,8 @@ services:
     deploy:
       mode: replicated
       replicas: 1
+    env_file:
+      - .env.dev      
 
   news_api:
     image: climatenews/news_api:latest
@@ -64,7 +69,9 @@ services:
     restart: always    
     deploy:
       mode: replicated
-      replicas: 1      
+      replicas: 1  
+    env_file:
+      - .env.dev           
 
   news_cron:
     image: climatenews/news_cron:latest
@@ -97,7 +104,9 @@ services:
     restart: always  
     deploy:
       mode: replicated
-      replicas: 1        
+      replicas: 1    
+    env_file:
+      - .env.dev           
 
 
   db:
@@ -121,7 +130,9 @@ services:
       start_period: 10s
     deploy:
       mode: replicated
-      replicas: 1      
+      replicas: 1    
+    env_file:
+      - .env.dev         
 
 networks:
   client-side: {}

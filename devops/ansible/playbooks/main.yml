@@ -1,0 +1,44 @@
+---
+- import_playbook: docker_setup.yml
+- hosts: all
+  become: true
+  tasks:
+    - name: Clone github repository
+      git:
+        repo: https://github.com/climatenews/services.git
+        dest: /home/ubuntu/services/
+        clone: yes
+        update: yes
+
+    - name: Copy docker-compose.yaml file
+      ansible.builtin.copy:
+        src: /home/ubuntu/services/docker-compose.yaml
+        dest: /home/ubuntu/docker-compose.yaml
+        owner: ubuntu
+        group: ubuntu 
+        remote_src: true      
+
+    # - name: Copy db backup crontab file
+    #   ansible.builtin.copy:
+    #     src: /home/ubuntu/services/devops/cron/postgres-backup.sh
+    #     dest: /usr/local/bin/postgres-backup.sh
+    #     owner: root
+    #     group: root
+    #     mode: '0644' 
+            # remote_src: true        
+
+    # - name: Create daily backup cronjob 
+    #   cron: minute="0" hour="0" 
+    #         name="Backup postgres database (daily schedule)"
+    #         cron_file="postgres-backup-daily"
+    #         user="root"
+    #         job="export $(xargs < /home/ubuntu/.env.dev); /usr/local/bin/postgres-backup.sh"       
+
+     
+
+# TODO
+## create swarm
+# sudo docker swarm init
+# copy .env.dev file
+## run swarm
+# env $(cat .env.dev | xargs) docker stack deploy --compose-file docker-compose.yaml climate_news_stack
