@@ -16,6 +16,6 @@ sudo terraform plan -target="aws_route53_record.cname_www"
 
 ```bash
 cd ansible
-ansible-playbook playbooks/docker.yml 
+ansible-playbook playbooks/main.yml 
 ```
 

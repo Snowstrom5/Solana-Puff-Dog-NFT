@@ -16,6 +16,7 @@
         dest: /home/ubuntu/docker-compose.yaml
         owner: ubuntu
         group: ubuntu 
+        mode: '700' 
         remote_src: true      
 
     - name: Copy db backup crontab file
@@ -24,7 +25,7 @@
         dest: /usr/local/bin/postgres-backup.sh
         owner: root
         group: root
-        mode: '0644' 
+        mode: '700' 
         remote_src: true        
 
     - name: Create daily database backup cronjob 
