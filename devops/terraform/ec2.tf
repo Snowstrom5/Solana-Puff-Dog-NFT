@@ -5,6 +5,9 @@ resource "aws_instance" "climate-news-service" {
   availability_zone      = var.aws_availability_zone
   vpc_security_group_ids = [aws_security_group.main.id]
 
+  # S3 db backup bucket access
+  iam_instance_profile = aws_iam_instance_profile.db_backup_iam_instance_profile.id
+
   lifecycle {
     prevent_destroy = true
   }
