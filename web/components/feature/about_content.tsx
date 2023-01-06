@@ -16,20 +16,15 @@ export default function AboutContent() {
               >
                 Climate News
               </Link>{" "}
-              is an open source project aiming to improve climate related
-              education.
-            </p>
-            <p className="mx-auto mt-5  text-lg text-gray-700">
-              The news feed shows climate related articles shared by leading
-              climate scientists, organizations, journalists and activists on
-              Twitter.
+              is an open source project that shows climate related articles shared by leading
+              climate scientists, organizations, journalists and activists on Twitter.
             </p>
 
             <p className="mt-8 text-xl font-extrabold tracking-tight text-gray-900">
               Twitter Lists
             </p>
             <p className="mx-auto mt-5  text-lg text-gray-700">
-              3500+ Twitter accounts are imported from the lists below to
+              3.5K+ Twitter accounts are imported from the lists below to
               generate the user list:
             </p>
             <ul className="mx-auto ml-5 mt-5 max-w-prose list-disc">
