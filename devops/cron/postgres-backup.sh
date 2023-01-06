@@ -27,7 +27,7 @@ tar -cf - 'dump_'"$POSTGRES_DB"'.sql' | gzip -9 > "$db_backup_filename"
 rm 'dump_'"$POSTGRES_DB"'.sql'
 
 echo 'Uploading PostgreSQL backup to S3 bucket'
-aws s3 cp "$BACKUP_FOLDER/$db_backup_filename s3://$S3_BACKUP_BUCKET$BACKUP_FOLDER/$db_backup_filename"
+aws s3 cp "$BACKUP_FOLDER/$db_backup_filename s3://$S3_BACKUP_BUCKET$BACKUP_FOLDER"
 
 cd "$BACKUP_FOLDER"
 md5sum * > MD5SUMS
