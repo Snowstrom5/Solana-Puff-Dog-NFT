@@ -24,6 +24,45 @@ export default function AboutContent() {
             </p>
 
             <p className="mt-8 text-xl font-extrabold tracking-tight text-gray-900">
+              News Feed
+            </p>
+            <p className="mx-auto mt-5  text-lg text-gray-700">
+              The news feed uses a ranking algorithm to find trending articles.
+            </p>
+
+            <p className="mx-auto mt-5  text-lg text-gray-700">
+              Users are scored based on their follower count, the number of
+              lists they appear in, and the amount of times they have been
+              referenced by other users.
+            </p>
+            <p className="mx-auto mt-5  text-lg text-gray-700">
+              The article&apos;s score is based on the score of the users that
+              shared it. It will gradually decrease over time.
+            </p>
+            <p className="mx-auto mt-5  text-lg text-gray-700">
+              The{" "}
+              <Link
+                href="https://developer.twitter.com/en/docs/twitter-api"
+                className="font-medium hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Twitter API
+              </Link>{" "}
+              is used to keep track of articles shared by users. The{" "}
+              <Link
+                href="https://openai.com"
+                className="font-medium hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                OpenAI GPT3 API
+              </Link>{" "}
+              is used to classify each article, to ensure only climate related
+              articles appear in the news feed.
+            </p>
+
+            <p className="mt-8 text-xl font-extrabold tracking-tight text-gray-900">
               Twitter Lists
             </p>
             <p className="mx-auto mt-5  text-lg text-gray-700">
@@ -90,44 +129,7 @@ export default function AboutContent() {
                 .
               </li>
             </ul>
-            <p className="mt-8 text-xl font-extrabold tracking-tight text-gray-900">
-              News Feed
-            </p>
-            <p className="mx-auto mt-5  text-lg text-gray-700">
-              The news feed uses a ranking algorithm to find trending articles.
-            </p>
 
-            <p className="mx-auto mt-5  text-lg text-gray-700">
-              Users are scored based on their follower count, the number of
-              lists they appear in, and the amount of times they have been
-              referenced by other users.
-            </p>
-            <p className="mx-auto mt-5  text-lg text-gray-700">
-              The article&apos;s score is based on the score of the users that
-              shared it. It will gradually decrease over time.
-            </p>
-            <p className="mx-auto mt-5  text-lg text-gray-700">
-              The{" "}
-              <Link
-                href="https://developer.twitter.com/en/docs/twitter-api"
-                className="font-medium hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Twitter API
-              </Link>{" "}
-              is used to keep track of articles shared by users. The{" "}
-              <Link
-                href="https://openai.com"
-                className="font-medium hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                OpenAI GPT3 API
-              </Link>{" "}
-              is used to classify each article, to ensure only climate related
-              articles appear in the news feed.
-            </p>
             <p className="mt-8 text-xl font-extrabold tracking-tight text-gray-900">
               Source Code
             </p>
