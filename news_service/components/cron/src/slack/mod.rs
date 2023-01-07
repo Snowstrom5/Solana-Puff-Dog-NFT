@@ -11,7 +11,10 @@ pub fn send_tweet_cron_message(message: String) {
             send_message(webhook_url, TWEET_CRON_CHANNEL.to_string(), message);
         }
         Err(err) => {
-            error!("Unable to parse TWEET_CRON_WEBHOOK_URL env variable {}", err)
+            error!(
+                "Unable to parse TWEET_CRON_WEBHOOK_URL env variable {}",
+                err
+            )
         }
     }
 }
@@ -27,28 +30,27 @@ pub fn send_main_cron_message(message: String) {
     }
 }
 
-fn send_message(webhook_env_str: String, channel: String, message: String) {
+fn send_message(webhook_url: String, channel: String, message: String) {
     if cfg!(debug_assertions) {
         info!("{}", message);
     } else {
-                match Slack::new(webhook_url.as_str()) {
-                    Ok(slack) => {
-                        let payload = PayloadBuilder::new()
-                            .text(message)
-                            .channel(channel)
-                            .username("Hooty Bot")
-                            .icon_emoji(":chart_with_upwards_trend:")
-                            .build()
-                            .unwrap();
+        match Slack::new(webhook_url.as_str()) {
+            Ok(slack) => {
+                let payload = PayloadBuilder::new()
+                    .text(message)
+                    .channel(channel)
+                    .username("Slack Bot")
+                    .icon_emoji(":chart_with_upwards_trend:")
+                    .build()
+                    .unwrap();
 
-                        if let Err(err) = slack.send(&payload) {
-                            log::error!("unable to send slack message: {}", err);
-                        }
-                    }
-                    Err(err) => {
-                        log::error!("unable to init slack: {}", err);
-                    }
-                };
-        }
+                if let Err(err) = slack.send(&payload) {
+                    log::error!("unable to send slack message: {}", err);
+                }
+            }
+            Err(err) => {
+                log::error!("unable to init slack: {}", err);
+            }
+        };
     }
 }

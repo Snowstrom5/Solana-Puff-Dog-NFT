@@ -50,8 +50,6 @@ async fn main() -> std::io::Result<()> {
         start_tweet_scheduler().await;
     });
 
-    
-
     let host = env::var("CRON_HOST").expect("HOST is not set");
     let port = env::var("CRON_PORT").expect("PORT is not set");
 
