@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     loaded: (posthog) => {
       // disable in development mode
       if (process.env.NODE_ENV === "development") posthog.opt_out_capturing();
-    },
+    }
   });
 
   return (

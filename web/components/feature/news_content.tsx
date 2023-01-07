@@ -18,7 +18,6 @@ export default function NewsContent(props: NewsContentProps) {
   return (
     <>
       <NewsHeader
-        title="News"
         subtitle="Trending climate related articles shared by leading climate scientists, organizations, journalists and activists."
         lastUpdated={lastUpdated}
       />
@@ -35,6 +34,8 @@ export default function NewsContent(props: NewsContentProps) {
                   <div className="col-span-10">
                     <a
                       href={newsFeedUrl.expandedUrlParsed}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="hover:underline"
                     >
                       <div className="flex flex-row">
@@ -63,6 +64,8 @@ export default function NewsContent(props: NewsContentProps) {
                   <div className="col-span-2">
                     <a
                       href={newsFeedUrl.expandedUrlParsed}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="hover:underline"
                     >
                       <img

@@ -22,6 +22,8 @@ export default function NewsFeedUrlContent(props: NewsFeedUrlContentProps) {
             <div className="flex flex-row">
               <a
                 className="hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
                 href={props.newsFeedUrl?.expandedUrlParsed}
               >
                 <p className="text-xl font-bold">{props.newsFeedUrl?.title}</p>
@@ -35,6 +37,8 @@ export default function NewsFeedUrlContent(props: NewsFeedUrlContentProps) {
               {/* link */}
               <a
                 className="text-blue-600 text-sm hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
                 href={props.newsFeedUrl?.expandedUrlParsed}
               >
                 {props.newsFeedUrl?.displayUrl} &rarr;
@@ -46,6 +50,8 @@ export default function NewsFeedUrlContent(props: NewsFeedUrlContentProps) {
           <div className="col-span-2">
             <a
               className="hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
               href={props.newsFeedUrl?.expandedUrlParsed}
             >
               <img

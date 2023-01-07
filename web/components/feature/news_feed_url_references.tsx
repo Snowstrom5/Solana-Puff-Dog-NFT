@@ -21,6 +21,9 @@ export default function NewsFeedUrlDirectReferences(
                 <div className="flex flex-row">
                   <a
                     href={`https://twitter.com/${newsFeedUrlReference.authorUsername}`}
+                    className="hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     <p className="text-m font-medium">
                       @{newsFeedUrlReference.authorUsername}
@@ -29,6 +32,8 @@ export default function NewsFeedUrlDirectReferences(
                   <a
                     href={`https://twitter.com/${newsFeedUrlReference.authorUsername}/status/${newsFeedUrlReference.tweetId}`}
                     className="ml-2 hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
                     <img
                       className="mx-auto h-5 w-5"

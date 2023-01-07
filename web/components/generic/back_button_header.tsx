@@ -5,7 +5,7 @@ export default function BackButtonHeader() {
   const router = useRouter();
   return (
     <>
-      <div className="py-2 lg:py-6 bg-gray-200">
+      <div className="py-2 lg:py-5 bg-gray-200">
         <div className="container px-4 w-full md:max-w-3xl mx-auto">
           <Link
             href={{
