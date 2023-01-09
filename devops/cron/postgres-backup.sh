@@ -33,3 +33,12 @@ cd "$BACKUP_FOLDER"
 md5sum * > MD5SUMS
 
 echo 'Done. '
+
+
+##### Restore backup locally
+# edit /etc/postgresql/12/main/pg_hba.conf to change the peer to md5 
+# sudo service postgresql restart
+# psql -U climate_action -d postgres
+# DROP DATABASE climate_action;
+# CREATE DATABASE climate_action;
+# psql climate_action < dump_climate_news.sql -U climate_action

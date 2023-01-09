@@ -18,7 +18,7 @@ use db::sql::news_feed_url_references_query::get_news_feed_url_references;
 use db::util::convert::{datetime_to_str, now_utc_datetime};
 use db::util::db::init_db;
 use db::util::string::concat_string;
-use db::util::time::past_days;
+use db::util::time::{past_days, now_formated};
 use log::{debug, error, info, warn};
 use sqlx::PgPool;
 use tokio_schedule::{every, Job};
@@ -28,7 +28,7 @@ pub async fn start_tweet_scheduler() {
     let tweet_scheduler = every(2).hours().in_timezone(&Utc).perform(|| async {
         match start_tweet_cron_job(&db_pool).await {
             Ok(_) => {
-                send_tweet_cron_message(format!("tweet_cron_job ended - {:?}", Local::now()));
+                send_tweet_cron_message(format!("tweet_cron_job ended - {:?}", now_formated()));
             }
             Err(err) => {
                 error!("tweet_cron_job failed: {:?}", err);
@@ -70,7 +70,7 @@ pub async fn start_tweet_cron_job(db_pool: &PgPool) -> anyhow::Result<()> {
 }
 
 pub async fn tweet_cron_job(db_pool: &PgPool) -> Result<()> {
-    info!("tweet_cron_job started - {:?}", Local::now());
+    info!("tweet_cron_job started - {:?}", now_formated());
     let recent_timestamp = past_days(NEWS_FEED_URLS_NUM_DAYS).unix_timestamp();
 
     match get_news_feed_urls(db_pool, recent_timestamp, NEWS_FEED_URLS_LIMIT).await {
@@ -86,7 +86,7 @@ pub async fn tweet_cron_job(db_pool: &PgPool) -> Result<()> {
             match news_feed_urls_not_tweeted.first() {
                 Some(news_feed_url) => {
                     info!(
-                        "news_feed_url found not shared on Twitter- {:?}",
+                        "tweet_cron_job - news_feed_url found not shared on Twitter- {:?}",
                         news_feed_url
                     );
 
@@ -119,16 +119,16 @@ pub async fn tweet_cron_job(db_pool: &PgPool) -> Result<()> {
                         )
                         .await?;
                     } else {
-                        error!("news_feed_url_references not found");
+                        error!("tweet_cron_job - news_feed_url_references not found");
                     }
                 }
                 None => {
-                    warn!("all news_feed_urls have been shared on Twitter");
+                    warn!("tweet_cron_job - all news_feed_urls have been shared on Twitter");
                 }
             }
         }
         Err(e) => {
-            info!("no news_feed_urls found - {:?}", e);
+            info!("tweet_cron_job - no news_feed_urls found - {:?}", e);
         }
     }
 
@@ -171,7 +171,7 @@ pub fn tweet_shared_by_text(news_feed_url_references: &Vec<NewsFeedUrlReferences
                     shared_by_text,
                     format!(
                         "Shared by @{}",
-                        news_feed_url_reference.username.as_ref().unwrap()
+                        news_feed_url_reference.referenced_username.as_ref().unwrap()
                     ),
                 );
             }
@@ -186,7 +186,7 @@ pub fn tweet_shared_by_text(news_feed_url_references: &Vec<NewsFeedUrlReferences
                     format!(
                         "{}{}",
                         seperator,
-                        news_feed_url_reference.username.as_ref().unwrap()
+                        news_feed_url_reference.referenced_username.as_ref().unwrap()
                     ),
                 );
             }
@@ -208,7 +208,7 @@ pub fn tweet_shared_by_text(news_feed_url_references: &Vec<NewsFeedUrlReferences
                     format!(
                         "{}{}{}",
                         seperator,
-                        news_feed_url_reference.username.as_ref().unwrap(),
+                        news_feed_url_reference.referenced_username.as_ref().unwrap(),
                         suffix
                     ),
                 );
