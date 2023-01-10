@@ -68,7 +68,7 @@ sudo docker service logs -f --since 1h climate_news_stack_web
 sudo docker service logs -f --since 1h climate_news_stack_caddy
 
 # Search logs for a service
-sudo docker service logs climate_news_stack_news_cron 2>&1 | grep "tweet" 
+sudo docker service logs climate_news_stack_news_cron 2>&1 | grep "tweet_cron_job" 
 
 # Remove the stack
 sudo docker stack rm climate_news_stack

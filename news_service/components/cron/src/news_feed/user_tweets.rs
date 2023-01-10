@@ -10,7 +10,6 @@ use crate::twitter::db::{
 use crate::util::convert::i64_to_numeric_id;
 use crate::util::convert::{numeric_id_to_i64, opt_i64_to_opt_numeric_id};
 use anyhow::Result;
-use chrono::Local;
 use db::models::news_referenced_tweet::NewsReferencedTweet;
 use db::models::news_twitter_user::NewsTwitterUser;
 use db::sql::news_twitter_list::update_news_twitter_list_last_checked_at;

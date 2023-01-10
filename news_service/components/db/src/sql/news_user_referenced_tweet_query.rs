@@ -36,28 +36,4 @@ pub async fn get_news_user_referenced_tweet_query(
     .await
 }
 
-pub async fn get_all_news_user_referenced_tweet_query(
-    pool: &PgPool,
-) -> Result<Vec<NewsUserReferencedTweetQuery>, sqlx::Error> {
-    sqlx::query_as!(
-        NewsUserReferencedTweetQuery,
-        r#"
-        SELECT
-            t1.author_id,
-            t1.tweet_id,
-            t2.author_id as referenced_author_id,
-            t2.tweet_id as referenced_tweet_id,
-            rt.referenced_tweet_kind
-        FROM
-            news_referenced_tweet as rt
-            JOIN news_tweet as t1 ON t1.tweet_id = rt.tweet_id
-            JOIN news_tweet as t2 ON t2.tweet_id = rt.referenced_tweet_id
-            
-        WHERE 
-            t1.author_id != t2.author_id               
-            AND (rt.referenced_tweet_kind = 'retweeted' OR rt.referenced_tweet_kind = 'quoted')
-            "#
-    )
-    .fetch_all(pool)
-    .await
-}
+

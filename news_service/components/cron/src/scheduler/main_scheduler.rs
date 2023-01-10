@@ -67,7 +67,10 @@ pub async fn start_main_cron_job(db_pool: &PgPool) -> anyhow::Result<()> {
 pub async fn main_cron_job(db_pool: &PgPool) -> Result<()> {
     info!("main_cron_job started - {:?}", now_formated());
     let twitter_api = init_twitter_api();
-    get_all_user_tweets(db_pool, &twitter_api).await?;
-    populate_news_feed_v1(db_pool).await?;
+    match get_all_user_tweets(db_pool, &twitter_api).await {
+        Ok(_) => populate_news_feed_v1(db_pool).await?,
+        Err(err) =>  error!("get_all_user_tweets error - {:?}", err)
+    };
+
     Ok(())
 }

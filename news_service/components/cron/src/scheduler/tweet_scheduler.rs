@@ -2,7 +2,7 @@ use crate::slack::send_tweet_cron_message;
 use crate::twitter::api::post_tweet;
 use crate::twitter::oauth::get_api_user_ctx;
 use anyhow::Result;
-use chrono::{Local, Utc};
+use chrono::Utc;
 use db::constants::{
     NEWS_FEED_MIN_NUM_SHARES_BEFORE_TWEETING, NEWS_FEED_URLS_LIMIT, NEWS_FEED_URLS_NUM_DAYS,
 };
