@@ -72,6 +72,7 @@ sudo docker service logs climate_news_stack_news_cron 2>&1 | grep "tweet_cron_jo
 
 # Remove the stack
 sudo docker stack rm climate_news_stack
+sudo docker volume prune
 
 ```
 

@@ -33,17 +33,3 @@ cd "$BACKUP_FOLDER"
 md5sum * > MD5SUMS
 
 echo 'Done. '
-
-
-##### Restore backup locally
-# edit /etc/postgresql/12/main/pg_hba.conf to change the peer to md5 
-# sudo service postgresql restart
-# psql -U climate_news -d postgres
-# DROP DATABASE climate_news;
-# CREATE DATABASE climate_news;
-# psql climate_news < dump_climate_news.sql -U climate_news
-
-
-##### edit database
-# sudo docker service ps -f "name=climate_news_stack_db" climate_news_stack_db -q --no-trunc | head -n1
-# sudo docker exec -t climate_news_stack_db.1.92nv9iwyshqcmen0urgms5ue5 psql -U climate_news
