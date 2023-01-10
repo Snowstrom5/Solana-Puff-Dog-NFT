@@ -56,8 +56,8 @@ pub async fn start_main_cron_job(db_pool: &PgPool) -> anyhow::Result<()> {
             .await?;
         }
         Err(err) => {
-            update_news_cron_job_error(&db_pool, news_cron_job_db.id, err.to_string()).await?;
             error!("main_cron_job failed: {:?}", err);
+            update_news_cron_job_error(&db_pool, news_cron_job_db.id, err.to_string()).await?;
             send_main_cron_message(format!("main_cron_job failed: {:?}", err));
         }
     }
