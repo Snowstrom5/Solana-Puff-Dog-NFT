@@ -68,7 +68,7 @@ sudo docker service logs -f --since 1h climate_news_stack_web
 sudo docker service logs -f --since 1h climate_news_stack_caddy
 
 # Search logs for a service
-sudo docker service logs climate_news_stack_news_cron 2>&1 | grep "tweet_cron_job" 
+sudo docker service logs --since 1h climate_news_stack_news_cron 2>&1 | grep "tweet_cron_job" 
 
 # Remove the stack
 sudo docker stack rm climate_news_stack
@@ -79,6 +79,6 @@ sudo docker volume prune
 # Triggering a new Docker image build
 ```bash
 
-git tag -a v0.0.40 -m "tweet scheduler bug fix" && git push origin v0.0.40
+git tag -a v0.0.41 -m "bug fix" && git push origin v0.0.41
 
 ```
