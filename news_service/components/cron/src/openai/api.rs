@@ -2,7 +2,7 @@ use crate::{
     news_feed::constants::REQUEST_SLEEP_DURATION,
     openai::models::{Completion, CompletionArgs},
 };
-use anyhow::{Error, Result};
+use anyhow::{Error, Result, bail};
 use db::models::news_tweet_url::NewsTweetUrlWithId;
 use log::info;
 use reqwest::header::{AUTHORIZATION, CONTENT_TYPE};
@@ -56,12 +56,18 @@ pub async fn completion(prompt: String) -> Result<String> {
         .send()
         .await;
     sleep(Duration::from_millis(REQUEST_SLEEP_DURATION)).await;
+
     match response {
         Err(e) => Err(Error::new(e).context("OpenAI completion API error".to_string())),
         Ok(response) => {
-            let mut result: Completion = response.json().await?;
-            let choice = result.choices.remove(0);
-            Ok(choice.text)
+            if response.status().is_server_error() {
+                bail!("openai - server error")
+            }else{
+                let mut result: Completion = response.json().await?;
+                let choice = result.choices.remove(0);
+                Ok(choice.text)
+            }
+
         }
     }
 }
