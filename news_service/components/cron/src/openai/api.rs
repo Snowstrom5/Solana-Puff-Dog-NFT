@@ -1,11 +1,15 @@
 use crate::{
     news_feed::constants::REQUEST_SLEEP_DURATION,
     openai::models::{Completion, CompletionArgs},
+    slack::send_main_cron_message,
 };
-use anyhow::{Error, Result, bail};
+use anyhow::{bail, Error, Result};
 use db::models::news_tweet_url::NewsTweetUrlWithId;
 use log::info;
-use reqwest::header::{AUTHORIZATION, CONTENT_TYPE};
+use reqwest::{
+    header::{AUTHORIZATION, CONTENT_TYPE},
+    StatusCode,
+};
 use tokio::time::{sleep, Duration};
 
 const BASE_URL: &str = "https://api.openai.com/v1";
@@ -29,7 +33,7 @@ pub async fn fetch_news_tweet_url_climate_classification(
 
 async fn fetch_text_climate_classification(text: String) -> Result<bool> {
     let prompt = format!("{}{}", text, PROMPT_END);
-    let completion = completion(prompt).await;
+    let completion = openai_completion_request(prompt).await;
     return match completion?.as_str() {
         " 0" => Ok(false),
         " 1" => Ok(true),
@@ -37,7 +41,7 @@ async fn fetch_text_climate_classification(text: String) -> Result<bool> {
     };
 }
 
-pub async fn completion(prompt: String) -> Result<String> {
+pub async fn openai_completion_request(prompt: String) -> Result<String> {
     let args = CompletionArgs {
         prompt,
         temperature: 1.0,
@@ -60,14 +64,15 @@ pub async fn completion(prompt: String) -> Result<String> {
     match response {
         Err(e) => Err(Error::new(e).context("OpenAI completion API error".to_string())),
         Ok(response) => {
-            if response.status().is_server_error() {
-                bail!("openai - server error")
-            }else{
+            if response.status() == StatusCode::OK {
                 let mut result: Completion = response.json().await?;
                 let choice = result.choices.remove(0);
                 Ok(choice.text)
+            } else {
+                let result = response.text().await?;
+                send_main_cron_message(format!("openai_completion_request failed: {:?}", result));
+                bail!("openai - server error - {}", result)
             }
-
         }
     }
 }

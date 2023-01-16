@@ -40,6 +40,8 @@ pub async fn health(data: web::Data<AppState>) -> Result<HttpResponse> {
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     init_env();
+    let db_pool = init_db().await;
+
     // Start mainscheduler on a new thread
     actix_rt::spawn(async move {
         start_main_scheduler().await;
@@ -53,7 +55,6 @@ async fn main() -> std::io::Result<()> {
     let host = env::var("CRON_HOST").expect("HOST is not set");
     let port = env::var("CRON_PORT").expect("PORT is not set");
 
-    let db_pool = init_db().await;
     let app_state = web::Data::new(AppState { db_pool: db_pool });
 
     // Start Web server

@@ -32,7 +32,7 @@ pub fn send_main_cron_message(message: String) {
 
 fn send_message(webhook_url: String, channel: String, message: String) {
     if cfg!(debug_assertions) {
-        info!("{}", message);
+        info!("[{}]", message);
     } else {
         info!("{}", message);
         match Slack::new(webhook_url.as_str()) {

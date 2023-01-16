@@ -16,27 +16,43 @@ use db::sql::news_feed_url::update_news_feed_url_tweeted_at;
 use db::sql::news_feed_url_query::get_news_feed_urls;
 use db::sql::news_feed_url_references_query::get_news_feed_url_references;
 use db::util::convert::{datetime_to_str, now_utc_datetime};
-use db::util::db::init_db;
+use db::util::db::init_db_result;
 use db::util::string::concat_string;
-use db::util::time::{past_days, now_formated};
+use db::util::time::{now_formated, past_days};
 use log::{debug, error, info, warn};
 use sqlx::PgPool;
 use tokio_schedule::{every, Job};
 
 pub async fn start_tweet_scheduler() {
-    let db_pool = init_db().await;
     let tweet_scheduler = every(2).hours().in_timezone(&Utc).perform(|| async {
-        send_tweet_cron_message(format!("tweet_cron_job started - {:?}", now_formated()));
-        match start_tweet_cron_job(&db_pool).await {
+        send_tweet_cron_message(format!("tweet_scheduler started - {:?}", now_formated()));
+        match init_tweet_cron_job().await {
             Ok(_) => {
-                send_tweet_cron_message(format!("tweet_cron_job ended - {:?}", now_formated()));
+                send_tweet_cron_message(format!(
+                    "init_tweet_cron_job success - {:?}",
+                    now_formated()
+                ));
             }
             Err(err) => {
-                send_tweet_cron_message(format!("tweet_cron_job #1 failed: {:?}", err));
+                send_tweet_cron_message(format!("init_tweet_cron_job error - {:?}", err));
             }
         }
     });
     tweet_scheduler.await;
+}
+
+pub async fn init_tweet_cron_job() -> Result<()> {
+    let db_pool = init_db_result().await?;
+    match start_tweet_cron_job(&db_pool).await {
+        Ok(_) => {
+            send_tweet_cron_message(format!("start_tweet_cron_job ended - {:?}", now_formated()));
+        }
+        Err(err) => {
+            send_tweet_cron_message(format!("start_tweet_cron_job failed: {:?}", err));
+        }
+    }
+    db_pool.close().await;
+    Ok(())
 }
 
 pub async fn start_tweet_cron_job(db_pool: &PgPool) -> anyhow::Result<()> {
@@ -172,7 +188,10 @@ pub fn tweet_shared_by_text(news_feed_url_references: &Vec<NewsFeedUrlReferences
                     shared_by_text,
                     format!(
                         "Shared by @{}",
-                        news_feed_url_reference.referenced_username.as_ref().unwrap()
+                        news_feed_url_reference
+                            .referenced_username
+                            .as_ref()
+                            .unwrap()
                     ),
                 );
             }
@@ -187,7 +206,10 @@ pub fn tweet_shared_by_text(news_feed_url_references: &Vec<NewsFeedUrlReferences
                     format!(
                         "{}{}",
                         seperator,
-                        news_feed_url_reference.referenced_username.as_ref().unwrap()
+                        news_feed_url_reference
+                            .referenced_username
+                            .as_ref()
+                            .unwrap()
                     ),
                 );
             }
@@ -209,7 +231,10 @@ pub fn tweet_shared_by_text(news_feed_url_references: &Vec<NewsFeedUrlReferences
                     format!(
                         "{}{}{}",
                         seperator,
-                        news_feed_url_reference.referenced_username.as_ref().unwrap(),
+                        news_feed_url_reference
+                            .referenced_username
+                            .as_ref()
+                            .unwrap(),
                         suffix
                     ),
                 );

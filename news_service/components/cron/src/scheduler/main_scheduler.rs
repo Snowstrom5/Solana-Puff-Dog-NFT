@@ -8,28 +8,44 @@ use db::sql::news_cron_job::{
     insert_news_cron_job, update_news_cron_job_completed_at, update_news_cron_job_error,
 };
 use db::util::convert::{datetime_to_str, now_utc_datetime};
-use db::util::db::init_db;
+use db::util::db::init_db_result;
 use db::util::time::now_formated;
 use log::{error, info};
 use sqlx::PgPool;
 use tokio::time::{sleep, Duration};
 
 pub async fn start_main_scheduler() {
-    let db_pool = init_db().await;
     loop {
-        // cron job continuous loop
-        send_main_cron_message(format!("main_cron_job started - {:?}", now_formated()));
-        match start_main_cron_job(&db_pool).await {
+        send_main_cron_message(format!("main_scheduler started - {:?}", now_formated()));
+        match init_main_cron_job().await {
             Ok(_) => {
-                send_main_cron_message(format!("main_cron_job ended - {:?}", now_formated()));
+                send_main_cron_message(format!(
+                    "init_main_cron_job success - {:?}",
+                    now_formated()
+                ));
             }
             Err(err) => {
-                error!("main_cron_job failed: {:?}", err);
+                send_main_cron_message(format!("init_main_cron_job error - {:?}", err));
             }
         }
         // Sleep for 10 minutes
         sleep(Duration::from_secs(10 * 60)).await;
     }
+}
+
+pub async fn init_main_cron_job() -> Result<()> {
+    let db_pool = init_db_result().await?;
+    // cron job continuous loop
+    match start_main_cron_job(&db_pool).await {
+        Ok(_) => {
+            send_main_cron_message(format!("main_cron_job ended - {:?}", now_formated()));
+        }
+        Err(err) => {
+            send_main_cron_message(format!("main_cron_job failed - {:?}", err));
+        }
+    }
+    db_pool.close().await;
+    Ok(())
 }
 
 pub async fn start_main_cron_job(db_pool: &PgPool) -> anyhow::Result<()> {
@@ -69,7 +85,7 @@ pub async fn main_cron_job(db_pool: &PgPool) -> Result<()> {
     let twitter_api = init_twitter_api();
     match get_all_user_tweets(db_pool, &twitter_api).await {
         Ok(_) => populate_news_feed_v1(db_pool).await?,
-        Err(err) =>  error!("get_all_user_tweets error - {:?}", err)
+        Err(err) => error!("get_all_user_tweets error - {:?}", err),
     };
 
     Ok(())
