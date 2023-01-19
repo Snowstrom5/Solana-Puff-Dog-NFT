@@ -29,7 +29,7 @@ pub async fn get_news_feed_urls(
         FROM
             news_feed_url as nfu
             JOIN news_tweet_url as tu ON tu.id = nfu.url_id
-            JOIN news_twitter_user as u ON u.user_id = nfu.first_referenced_by
+            JOIN news_twitter_referenced_user as u ON u.user_id = nfu.first_referenced_by
         WHERE
             nfu.created_at > $1  
             AND nfu.is_climate_related = True  
@@ -70,7 +70,7 @@ pub async fn get_news_feed_url(
         FROM
             news_feed_url as nfu
             JOIN news_tweet_url as tu ON tu.id = nfu.url_id
-            JOIN news_twitter_user as u ON u.user_id = nfu.first_referenced_by
+            JOIN news_twitter_referenced_user as u ON u.user_id = nfu.first_referenced_by
         WHERE
             nfu.url_slug = $1
      "#,
