@@ -22,8 +22,13 @@ cargo test -- --nocapture
 ### SQLX offline mode
 
 ```bash
+# Ensure sqlx-cli version matches the version of sqlx installed
+cargo install sqlx-cli
 # Generate a sqlx-data.json file
+cd news_service
 cargo clean && DATABASE_URL=postgres://climate_news:climate_news@localhost:5432/climate_news cargo sqlx prepare --merged
+# Check that the sqlx-data.json file matches the db
+DATABASE_URL=postgres://climate_news:climate_news@localhost:5432/climate_news cargo sqlx prepare --check --merged
 ```
 #### Setting up the database
 ```sh

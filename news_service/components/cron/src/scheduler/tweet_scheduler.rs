@@ -160,7 +160,7 @@ pub fn get_tweet_text(
     format!(
         r#"{}
 
-More info: https://climatenews.app/news_feed/{}
+Tweets: https://climatenews.app/news_feed/{}
 
 {}
 
@@ -307,7 +307,7 @@ mod tests {
 
         assert_eq!(
             get_tweet_text(&news_feed_url_query, &news_feed_url_references_list),
-            String::from("Example Title\n\nMore info: https://climatenews.app/news_feed/example-slug\n\nShared by @user1\n\nArticle link: https://www.theguardian.com/environment/2022/dec/12/brazil-goldminers-carve-road-to-chaos-amazon-reserve\n#ClimateNews")
+            String::from("Example Title\n\nTweets: https://climatenews.app/news_feed/example-slug\n\nShared by @user1\n\nArticle link: https://www.theguardian.com/environment/2022/dec/12/brazil-goldminers-carve-road-to-chaos-amazon-reserve\n#ClimateNews")
         );
 
         // Shared by 2 users
@@ -326,7 +326,7 @@ mod tests {
 
         assert_eq!(
                     get_tweet_text(&news_feed_url_query, &news_feed_url_references_list),
-                    String::from("Example Title\n\nMore info: https://climatenews.app/news_feed/example-slug\n\nShared by @user1 and @user2\n\nArticle link: https://www.theguardian.com/environment/2022/dec/12/brazil-goldminers-carve-road-to-chaos-amazon-reserve\n#ClimateNews")
+                    String::from("Example Title\n\nTweets: https://climatenews.app/news_feed/example-slug\n\nShared by @user1 and @user2\n\nArticle link: https://www.theguardian.com/environment/2022/dec/12/brazil-goldminers-carve-road-to-chaos-amazon-reserve\n#ClimateNews")
                 );
         // Shared by 3 users
         news_feed_url_references_list.push(NewsFeedUrlReferencesQuery {
@@ -344,7 +344,7 @@ mod tests {
 
         assert_eq!(
                     get_tweet_text(&news_feed_url_query, &news_feed_url_references_list),
-                    String::from("Example Title\n\nMore info: https://climatenews.app/news_feed/example-slug\n\nShared by @user1, @user2 and @user3\n\nArticle link: https://www.theguardian.com/environment/2022/dec/12/brazil-goldminers-carve-road-to-chaos-amazon-reserve\n#ClimateNews")
+                    String::from("Example Title\n\nTweets: https://climatenews.app/news_feed/example-slug\n\nShared by @user1, @user2 and @user3\n\nArticle link: https://www.theguardian.com/environment/2022/dec/12/brazil-goldminers-carve-road-to-chaos-amazon-reserve\n#ClimateNews")
                 );
 
         // Shared by 4 users
@@ -363,7 +363,7 @@ mod tests {
 
         assert_eq!(
                     get_tweet_text(&news_feed_url_query, &news_feed_url_references_list),
-                    String::from("Example Title\n\nMore info: https://climatenews.app/news_feed/example-slug\n\nShared by @user1, @user2, @user3 and 1 other\n\nArticle link: https://www.theguardian.com/environment/2022/dec/12/brazil-goldminers-carve-road-to-chaos-amazon-reserve\n#ClimateNews")
+                    String::from("Example Title\n\nTweets: https://climatenews.app/news_feed/example-slug\n\nShared by @user1, @user2, @user3 and 1 other\n\nArticle link: https://www.theguardian.com/environment/2022/dec/12/brazil-goldminers-carve-road-to-chaos-amazon-reserve\n#ClimateNews")
                 );
 
         // Shared by 5 users
@@ -382,7 +382,7 @@ mod tests {
 
         assert_eq!(
                     get_tweet_text(&news_feed_url_query, &news_feed_url_references_list),
-                    String::from("Example Title\n\nMore info: https://climatenews.app/news_feed/example-slug\n\nShared by @user1, @user2, @user3 and 2 others\n\nArticle link: https://www.theguardian.com/environment/2022/dec/12/brazil-goldminers-carve-road-to-chaos-amazon-reserve\n#ClimateNews")
+                    String::from("Example Title\n\nTweets: https://climatenews.app/news_feed/example-slug\n\nShared by @user1, @user2, @user3 and 2 others\n\nArticle link: https://www.theguardian.com/environment/2022/dec/12/brazil-goldminers-carve-road-to-chaos-amazon-reserve\n#ClimateNews")
                 );
 
         // Shared by 5 users with duplicate username
@@ -413,7 +413,7 @@ mod tests {
         );
         assert_eq!(
                     get_tweet_text(&news_feed_url_query, &news_feed_url_references_list),
-                    String::from("Example Title\n\nMore info: https://climatenews.app/news_feed/example-slug\n\nShared by @user1, @user2, @user3 and 2 others\n\nArticle link: https://www.theguardian.com/environment/2022/dec/12/brazil-goldminers-carve-road-to-chaos-amazon-reserve\n#ClimateNews")
+                    String::from("Example Title\n\nTweets: https://climatenews.app/news_feed/example-slug\n\nShared by @user1, @user2, @user3 and 2 others\n\nArticle link: https://www.theguardian.com/environment/2022/dec/12/brazil-goldminers-carve-road-to-chaos-amazon-reserve\n#ClimateNews")
                 );
     }
 }

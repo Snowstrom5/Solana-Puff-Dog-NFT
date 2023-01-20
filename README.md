@@ -79,6 +79,6 @@ sudo docker volume prune
 # Triggering a new Docker image build
 ```bash
 
-git tag -a v0.0.48 -m "news feed query bug fix" && git push origin v0.0.48
+git tag -a v0.0.49 -m "sqlx-cli version mismatch fix" && git push origin v0.0.49
 
 ```

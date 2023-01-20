@@ -1,3 +1,1844 @@
 {
-  "db": "PostgreSQL"
+  "db": "PostgreSQL",
+  "038686630c6850687d75525913936451f5a892c354616e4f6692da7fa83ff07b": {
+    "describe": {
+      "columns": [
+        {
+          "name": "user_id",
+          "ordinal": 0,
+          "type_info": "Int8"
+        },
+        {
+          "name": "username",
+          "ordinal": 1,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Int8",
+          "Text"
+        ]
+      }
+    },
+    "query": "\n            INSERT INTO news_twitter_referenced_user ( \n                user_id, username\n             )\n            VALUES ( $1, $2)\n            RETURNING \n            user_id, username\n            "
+  },
+  "0e04dc73a0f3238e5d39efb45e5d5b2a39ba265ca7c389d0c5498922204d7849": {
+    "describe": {
+      "columns": [
+        {
+          "name": "cron_type",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "started_at",
+          "ordinal": 1,
+          "type_info": "Int8"
+        },
+        {
+          "name": "started_at_str",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "completed_at",
+          "ordinal": 3,
+          "type_info": "Int8"
+        },
+        {
+          "name": "completed_at_str",
+          "ordinal": 4,
+          "type_info": "Text"
+        },
+        {
+          "name": "error",
+          "ordinal": 5,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "\n        SELECT cron_type, started_at, started_at_str, completed_at, completed_at_str, error            \n        FROM news_cron_job\n        WHERE completed_at IS NOT NULL AND cron_type = $1\n        ORDER BY completed_at DESC\n        LIMIT 1\n     "
+  },
+  "0efccb4c4c970e1ebaeb593acd9bdc9dc49e2b68d11639aff61d7f01dd74ef1f": {
+    "describe": {
+      "columns": [
+        {
+          "name": "tweet_id",
+          "ordinal": 0,
+          "type_info": "Int8"
+        },
+        {
+          "name": "url_id",
+          "ordinal": 1,
+          "type_info": "Int4"
+        }
+      ],
+      "nullable": [
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Int8",
+          "Int4"
+        ]
+      }
+    },
+    "query": "\n            INSERT INTO news_referenced_tweet_url ( \n                tweet_id, url_id\n             )\n            VALUES ( $1, $2)\n            RETURNING \n                tweet_id, url_id\n            "
+  },
+  "119025caba108d84cbbb88044abe5474018538a5dbb6c7cc258f052865774fac": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Int8",
+          "Int8",
+          "Int8"
+        ]
+      }
+    },
+    "query": "\n            UPDATE news_twitter_user \n            SET last_tweet_id = $1, last_updated_at = $2\n            WHERE user_id = $3\n            "
+  },
+  "182d3d8b7979e428d8968665eeef9ed58c8733ae6fa6ec35dcaa280997e287ae": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Int4"
+        ]
+      }
+    },
+    "query": "\n            UPDATE news_cron_job \n            SET error = $1\n            WHERE id = $2\n        "
+  },
+  "1d3045494006c856055f3e77cc68e182f719569d42bb5b785dc2d2626a2e78b2": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Int4"
+        },
+        {
+          "name": "url",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "expanded_url",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "expanded_url_parsed",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "expanded_url_host",
+          "ordinal": 4,
+          "type_info": "Text"
+        },
+        {
+          "name": "display_url",
+          "ordinal": 5,
+          "type_info": "Text"
+        },
+        {
+          "name": "is_twitter_url",
+          "ordinal": 6,
+          "type_info": "Bool"
+        },
+        {
+          "name": "is_english",
+          "ordinal": 7,
+          "type_info": "Bool"
+        },
+        {
+          "name": "title",
+          "ordinal": 8,
+          "type_info": "Text"
+        },
+        {
+          "name": "description",
+          "ordinal": 9,
+          "type_info": "Text"
+        },
+        {
+          "name": "preview_image_thumbnail_url",
+          "ordinal": 10,
+          "type_info": "Text"
+        },
+        {
+          "name": "preview_image_url",
+          "ordinal": 11,
+          "type_info": "Text"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 12,
+          "type_info": "Int8"
+        },
+        {
+          "name": "created_at_str",
+          "ordinal": 13,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "\n            SELECT \n                id, url, expanded_url, expanded_url_parsed, expanded_url_host, display_url, is_twitter_url, is_english, title, description, preview_image_thumbnail_url, preview_image_url, created_at, created_at_str\n            FROM news_tweet_url   \n            WHERE expanded_url_parsed = $1         \n            "
+  },
+  "207a46f4b3aa7853ccc0f78ebf21356e950f850a9d8faeb11395cc17e93682c5": {
+    "describe": {
+      "columns": [
+        {
+          "name": "user_id",
+          "ordinal": 0,
+          "type_info": "Int8"
+        },
+        {
+          "name": "username",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "profile_image_url",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "description",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "verified",
+          "ordinal": 4,
+          "type_info": "Bool"
+        },
+        {
+          "name": "followers_count",
+          "ordinal": 5,
+          "type_info": "Int4"
+        },
+        {
+          "name": "listed_count",
+          "ordinal": 6,
+          "type_info": "Int4"
+        },
+        {
+          "name": "user_referenced_tweets_count",
+          "ordinal": 7,
+          "type_info": "Int4"
+        },
+        {
+          "name": "user_score",
+          "ordinal": 8,
+          "type_info": "Int4"
+        },
+        {
+          "name": "last_tweet_id",
+          "ordinal": 9,
+          "type_info": "Int8"
+        },
+        {
+          "name": "last_updated_at",
+          "ordinal": 10,
+          "type_info": "Int8"
+        },
+        {
+          "name": "last_checked_at",
+          "ordinal": 11,
+          "type_info": "Int8"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        false,
+        false,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Int8",
+          "Text",
+          "Text",
+          "Text",
+          "Bool",
+          "Int4",
+          "Int4",
+          "Int4",
+          "Int4",
+          "Int8",
+          "Int8",
+          "Int8"
+        ]
+      }
+    },
+    "query": "\n            INSERT INTO news_twitter_user ( \n                user_id, username, profile_image_url, description, verified, followers_count, listed_count, user_referenced_tweets_count, user_score, last_tweet_id, last_updated_at, last_checked_at\n             )\n            VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)\n            RETURNING \n            user_id, username, profile_image_url, description, verified, followers_count, listed_count, user_referenced_tweets_count, user_score, last_tweet_id, last_updated_at, last_checked_at\n            "
+  },
+  "2ea795699fa6517a2a9e920df3bef27ed16dd6b68976a1c05a8088a2eb200266": {
+    "describe": {
+      "columns": [
+        {
+          "name": "url_slug",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "url_id",
+          "ordinal": 1,
+          "type_info": "Int4"
+        },
+        {
+          "name": "url_score",
+          "ordinal": 2,
+          "type_info": "Int4"
+        },
+        {
+          "name": "num_references",
+          "ordinal": 3,
+          "type_info": "Int4"
+        },
+        {
+          "name": "first_referenced_by",
+          "ordinal": 4,
+          "type_info": "Int8"
+        },
+        {
+          "name": "is_climate_related",
+          "ordinal": 5,
+          "type_info": "Bool"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 6,
+          "type_info": "Int8"
+        },
+        {
+          "name": "created_at_str",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "tweeted_at",
+          "ordinal": 8,
+          "type_info": "Int8"
+        },
+        {
+          "name": "tweeted_at_str",
+          "ordinal": 9,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Int4"
+        ]
+      }
+    },
+    "query": "\n            SELECT url_slug, url_id, url_score, num_references, first_referenced_by, is_climate_related, created_at, created_at_str, tweeted_at, tweeted_at_str\n            FROM news_feed_url\n            WHERE url_id = $1;\n        "
+  },
+  "48d4cdfdb8725a5ed8a49c6766b2cd1e3f442095303aa22932d6874edcc9bcfc": {
+    "describe": {
+      "columns": [
+        {
+          "name": "url_slug",
+          "ordinal": 0,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Int8",
+          "Int8"
+        ]
+      }
+    },
+    "query": "\n            SELECT url_slug\n            FROM news_feed_url\n            WHERE\n                created_at >= $1  \n                AND created_at < $2  \n                AND is_climate_related = True\n        "
+  },
+  "4bf4151407d814c10d354a13f6a61d5f8e272b8207b3f892a959b285fdec3306": {
+    "describe": {
+      "columns": [
+        {
+          "name": "tweet_id",
+          "ordinal": 0,
+          "type_info": "Int8"
+        },
+        {
+          "name": "referenced_tweet_id",
+          "ordinal": 1,
+          "type_info": "Int8"
+        },
+        {
+          "name": "referenced_tweet_kind",
+          "ordinal": 2,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": []
+      }
+    },
+    "query": "\n            SELECT \n                tweet_id, referenced_tweet_id, referenced_tweet_kind      \n            FROM news_referenced_tweet            \n            "
+  },
+  "5310905be87529e22fb73514da712f4fee3eadbfa00127cea1219ee1c58a17ca": {
+    "describe": {
+      "columns": [
+        {
+          "name": "user_id",
+          "ordinal": 0,
+          "type_info": "Int8"
+        },
+        {
+          "name": "username",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "profile_image_url",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "description",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "verified",
+          "ordinal": 4,
+          "type_info": "Bool"
+        },
+        {
+          "name": "followers_count",
+          "ordinal": 5,
+          "type_info": "Int4"
+        },
+        {
+          "name": "listed_count",
+          "ordinal": 6,
+          "type_info": "Int4"
+        },
+        {
+          "name": "user_referenced_tweets_count",
+          "ordinal": 7,
+          "type_info": "Int4"
+        },
+        {
+          "name": "user_score",
+          "ordinal": 8,
+          "type_info": "Int4"
+        },
+        {
+          "name": "last_tweet_id",
+          "ordinal": 9,
+          "type_info": "Int8"
+        },
+        {
+          "name": "last_updated_at",
+          "ordinal": 10,
+          "type_info": "Int8"
+        },
+        {
+          "name": "last_checked_at",
+          "ordinal": 11,
+          "type_info": "Int8"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        false,
+        false,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Int8"
+        ]
+      }
+    },
+    "query": "\n            SELECT user_id, username, profile_image_url, description, verified, followers_count, listed_count, user_referenced_tweets_count, user_score, last_tweet_id, last_updated_at, last_checked_at\n            FROM news_twitter_user\n            WHERE user_id = $1;\n        "
+  },
+  "5e4e02137987d4256d68d4ee59ee7f472a27ed06a594e1de3fa44b7a7d543a75": {
+    "describe": {
+      "columns": [
+        {
+          "name": "url_id",
+          "ordinal": 0,
+          "type_info": "Int4"
+        },
+        {
+          "name": "author_id",
+          "ordinal": 1,
+          "type_info": "Int8"
+        },
+        {
+          "name": "user_score",
+          "ordinal": 2,
+          "type_info": "Int4"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 3,
+          "type_info": "Int8"
+        },
+        {
+          "name": "created_at_str",
+          "ordinal": 4,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        true,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Int8"
+        ]
+      }
+    },
+    "query": "\n        SELECT \n            rtu.url_id,\n            t.author_id,\n            u.user_score,\n            t.created_at,\n            t.created_at_str\n        FROM\n            news_referenced_tweet_url as rtu \n            JOIN news_tweet_url as tu ON tu.id = rtu.url_id\n            JOIN news_tweet as t ON t.tweet_id = rtu.tweet_id\n            LEFT JOIN news_twitter_user as u ON t.author_id = u.user_id\t\n            \n        WHERE\n            tu.is_twitter_url = False\n            AND tu.is_english = True\n            AND tu.title IS NOT NULL\n            AND t.in_reply_to_user_id IS NULL\n        AND t.created_at > $1\n        ORDER BY  \n            t.created_at DESC\n     "
+  },
+  "627e542f39d43badc6123f7d26f0f1ce225ea3ffa6102af1c6689c30376eb5b1": {
+    "describe": {
+      "columns": [
+        {
+          "name": "tweet_id",
+          "ordinal": 0,
+          "type_info": "Int8"
+        },
+        {
+          "name": "text",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "author_id",
+          "ordinal": 2,
+          "type_info": "Int8"
+        },
+        {
+          "name": "conversation_id",
+          "ordinal": 3,
+          "type_info": "Int8"
+        },
+        {
+          "name": "in_reply_to_user_id",
+          "ordinal": 4,
+          "type_info": "Int8"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 5,
+          "type_info": "Int8"
+        },
+        {
+          "name": "created_at_str",
+          "ordinal": 6,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Int8"
+        ]
+      }
+    },
+    "query": "\n            SELECT \n                tweet_id, text, author_id, conversation_id, in_reply_to_user_id, created_at, created_at_str  \n            FROM news_tweet \n            WHERE tweet_id = $1              \n            "
+  },
+  "68b8dc1752482d087fbe206105590d7134ce1a30589f40b8c989c86831b239f8": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Bool",
+          "Int4"
+        ]
+      }
+    },
+    "query": "\n        UPDATE news_feed_url \n        SET is_climate_related = $1\n        WHERE url_id = $2\n        "
+  },
+  "6c5f2ae0f3d4ace8126f71038281cba48eb3761cf3ccc6ce12ed458aaf43b922": {
+    "describe": {
+      "columns": [
+        {
+          "name": "tweet_id",
+          "ordinal": 0,
+          "type_info": "Int8"
+        },
+        {
+          "name": "url_id",
+          "ordinal": 1,
+          "type_info": "Int4"
+        }
+      ],
+      "nullable": [
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Int8",
+          "Int4"
+        ]
+      }
+    },
+    "query": "\n            SELECT \n                tweet_id, url_id  \n            FROM news_referenced_tweet_url \n            WHERE tweet_id = $1 AND url_id = $2                     \n            "
+  },
+  "7e50764aa890e72c2b9192972fa34e6ecc258ee9d7b21c29279708691c83922b": {
+    "describe": {
+      "columns": [
+        {
+          "name": "url_slug",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "url_id",
+          "ordinal": 1,
+          "type_info": "Int4"
+        },
+        {
+          "name": "url_score",
+          "ordinal": 2,
+          "type_info": "Int4"
+        },
+        {
+          "name": "num_references",
+          "ordinal": 3,
+          "type_info": "Int4"
+        },
+        {
+          "name": "tweeted_at",
+          "ordinal": 4,
+          "type_info": "Int8"
+        },
+        {
+          "name": "first_referenced_by_username",
+          "ordinal": 5,
+          "type_info": "Text"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 6,
+          "type_info": "Int8"
+        },
+        {
+          "name": "title",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "description",
+          "ordinal": 8,
+          "type_info": "Text"
+        },
+        {
+          "name": "expanded_url_parsed",
+          "ordinal": 9,
+          "type_info": "Text"
+        },
+        {
+          "name": "expanded_url_host",
+          "ordinal": 10,
+          "type_info": "Text"
+        },
+        {
+          "name": "display_url",
+          "ordinal": 11,
+          "type_info": "Text"
+        },
+        {
+          "name": "preview_image_thumbnail_url",
+          "ordinal": 12,
+          "type_info": "Text"
+        },
+        {
+          "name": "preview_image_url",
+          "ordinal": 13,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "\n        SELECT\n            nfu.url_slug, \n            nfu.url_id, \n            nfu.url_score,\n            nfu.num_references,\n            nfu.tweeted_at,\n            u.username as first_referenced_by_username,\n            nfu.created_at,\n            tu.title,\n            tu.description,\n            tu.expanded_url_parsed,\n            tu.expanded_url_host,\n            tu.display_url,\n            tu.preview_image_thumbnail_url,\n            tu.preview_image_url\n            \n        FROM\n            news_feed_url as nfu\n            JOIN news_tweet_url as tu ON tu.id = nfu.url_id\n            JOIN news_twitter_referenced_user as u ON u.user_id = nfu.first_referenced_by\n        WHERE\n            nfu.url_slug = $1\n     "
+  },
+  "8e13c9b8b700b7f3327258ee2cacb24352bf318bec140b4f8b5be6444e9e2f3f": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": []
+      }
+    },
+    "query": "\n        UPDATE news_feed_url \n        SET url_score = 0\n        "
+  },
+  "8f196b4a6789a15446824112fcc844b53eb79da3f3d5e2d53765844e7efe358c": {
+    "describe": {
+      "columns": [
+        {
+          "name": "list_id",
+          "ordinal": 0,
+          "type_info": "Int8"
+        },
+        {
+          "name": "last_checked_at",
+          "ordinal": 1,
+          "type_info": "Int8"
+        }
+      ],
+      "nullable": [
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Int8",
+          "Int8"
+        ]
+      }
+    },
+    "query": "\n            INSERT INTO news_twitter_list ( \n                list_id, last_checked_at\n             )\n            VALUES ( $1, $2)\n            RETURNING \n                list_id, last_checked_at\n            "
+  },
+  "8f24c735a38e51b4cc2204c9f4c9c319a383f9209d63fb32378fb1e472408dc0": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Int8",
+          "Text",
+          "Int4"
+        ]
+      }
+    },
+    "query": "\n            UPDATE news_cron_job \n            SET completed_at = $1, completed_at_str = $2\n            WHERE id = $3\n        "
+  },
+  "9095294237715e160be8587f5f28f1e9327369db7bd57d69bf65d8a426d012c7": {
+    "describe": {
+      "columns": [
+        {
+          "name": "url_slug",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "url_id",
+          "ordinal": 1,
+          "type_info": "Int4"
+        },
+        {
+          "name": "url_score",
+          "ordinal": 2,
+          "type_info": "Int4"
+        },
+        {
+          "name": "num_references",
+          "ordinal": 3,
+          "type_info": "Int4"
+        },
+        {
+          "name": "tweeted_at",
+          "ordinal": 4,
+          "type_info": "Int8"
+        },
+        {
+          "name": "first_referenced_by_username",
+          "ordinal": 5,
+          "type_info": "Text"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 6,
+          "type_info": "Int8"
+        },
+        {
+          "name": "title",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "description",
+          "ordinal": 8,
+          "type_info": "Text"
+        },
+        {
+          "name": "expanded_url_parsed",
+          "ordinal": 9,
+          "type_info": "Text"
+        },
+        {
+          "name": "expanded_url_host",
+          "ordinal": 10,
+          "type_info": "Text"
+        },
+        {
+          "name": "display_url",
+          "ordinal": 11,
+          "type_info": "Text"
+        },
+        {
+          "name": "preview_image_thumbnail_url",
+          "ordinal": 12,
+          "type_info": "Text"
+        },
+        {
+          "name": "preview_image_url",
+          "ordinal": 13,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Int8",
+          "Int8"
+        ]
+      }
+    },
+    "query": "\n        SELECT\n            nfu.url_slug, \n            nfu.url_id, \n            nfu.url_score,\n            nfu.num_references,\n            nfu.tweeted_at,\n            u.username as first_referenced_by_username,\n            nfu.created_at,\n            tu.title,\n            tu.description,\n            tu.expanded_url_parsed,\n            tu.expanded_url_host,\n            tu.display_url,\n            tu.preview_image_thumbnail_url,\n            tu.preview_image_url\n            \n        FROM\n            news_feed_url as nfu\n            JOIN news_tweet_url as tu ON tu.id = nfu.url_id\n            JOIN news_twitter_referenced_user as u ON u.user_id = nfu.first_referenced_by\n        WHERE\n            nfu.created_at > $1  \n            AND nfu.is_climate_related = True  \n        ORDER BY\n            url_score DESC\n        LIMIT $2 \n     "
+  },
+  "95486b86c0bd1f817ed86d64def5235c1c26d094ce83486dc56d16b6ac1a0550": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Int4"
+        },
+        {
+          "name": "cron_type",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "started_at",
+          "ordinal": 2,
+          "type_info": "Int8"
+        },
+        {
+          "name": "started_at_str",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "completed_at",
+          "ordinal": 4,
+          "type_info": "Int8"
+        },
+        {
+          "name": "completed_at_str",
+          "ordinal": 5,
+          "type_info": "Text"
+        },
+        {
+          "name": "error",
+          "ordinal": 6,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Int8",
+          "Text",
+          "Int8",
+          "Text",
+          "Text"
+        ]
+      }
+    },
+    "query": "\n            INSERT INTO news_cron_job ( \n                cron_type, started_at, started_at_str, completed_at, completed_at_str, error\n             )\n            VALUES ( $1, $2, $3, $4, $5, $6)\n            RETURNING \n                id, cron_type, started_at, started_at_str, completed_at, completed_at_str, error\n            "
+  },
+  "98d17d72541f08450b527bf0eac5651ad43d035060f963523f957567260f88fa": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Int4"
+        },
+        {
+          "name": "url",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "expanded_url",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "expanded_url_parsed",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "expanded_url_host",
+          "ordinal": 4,
+          "type_info": "Text"
+        },
+        {
+          "name": "display_url",
+          "ordinal": 5,
+          "type_info": "Text"
+        },
+        {
+          "name": "is_twitter_url",
+          "ordinal": 6,
+          "type_info": "Bool"
+        },
+        {
+          "name": "is_english",
+          "ordinal": 7,
+          "type_info": "Bool"
+        },
+        {
+          "name": "title",
+          "ordinal": 8,
+          "type_info": "Text"
+        },
+        {
+          "name": "description",
+          "ordinal": 9,
+          "type_info": "Text"
+        },
+        {
+          "name": "preview_image_thumbnail_url",
+          "ordinal": 10,
+          "type_info": "Text"
+        },
+        {
+          "name": "preview_image_url",
+          "ordinal": 11,
+          "type_info": "Text"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 12,
+          "type_info": "Int8"
+        },
+        {
+          "name": "created_at_str",
+          "ordinal": 13,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Int4"
+        ]
+      }
+    },
+    "query": "\n            SELECT \n                id, url, expanded_url, expanded_url_parsed, expanded_url_host, display_url, is_twitter_url, is_english, title, description, preview_image_thumbnail_url, preview_image_url, created_at, created_at_str\n            FROM news_tweet_url   \n            WHERE id = $1         \n            "
+  },
+  "9b7fea57d3d676912e19fc8908cebb73585a4922a19b1322b37807437ad569f4": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Int8",
+          "Int8"
+        ]
+      }
+    },
+    "query": "\n            UPDATE news_twitter_user \n            SET last_checked_at = $1\n            WHERE user_id = $2\n            "
+  },
+  "9d2b86a9322cd359004aff6a25d7e2898fc73e23776afede0404bb20b5d17eed": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Int8",
+          "Int8"
+        ]
+      }
+    },
+    "query": "\n            UPDATE news_twitter_list \n            SET last_checked_at = $1\n            WHERE list_id = $2\n            "
+  },
+  "a783689e1d9446b90265bf4cab2fb453a04b4628cb43e286089c66666a36b253": {
+    "describe": {
+      "columns": [
+        {
+          "name": "author_id",
+          "ordinal": 0,
+          "type_info": "Int8"
+        },
+        {
+          "name": "tweet_id",
+          "ordinal": 1,
+          "type_info": "Int8"
+        },
+        {
+          "name": "referenced_author_id",
+          "ordinal": 2,
+          "type_info": "Int8"
+        },
+        {
+          "name": "referenced_tweet_id",
+          "ordinal": 3,
+          "type_info": "Int8"
+        },
+        {
+          "name": "referenced_tweet_kind",
+          "ordinal": 4,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Int8"
+        ]
+      }
+    },
+    "query": "\n        SELECT\n            t1.author_id,\n            t1.tweet_id,\n            t2.author_id as referenced_author_id,\n            t2.tweet_id as referenced_tweet_id,\n            rt.referenced_tweet_kind\n        FROM\n            news_referenced_tweet as rt\n            JOIN news_tweet as t1 ON t1.tweet_id = rt.tweet_id\n            JOIN news_tweet as t2 ON t2.tweet_id = rt.referenced_tweet_id\n            \n        WHERE \n            t1.author_id != t2.author_id               \n            AND (rt.referenced_tweet_kind = 'retweeted' OR rt.referenced_tweet_kind = 'quoted')\n            AND t2.author_id = $1\n            "
+  },
+  "afc91f1ce62bb7a0ac161547b9b521f563898c6ebf488f1f6a0ec0b4dcde0429": {
+    "describe": {
+      "columns": [
+        {
+          "name": "tweet_id",
+          "ordinal": 0,
+          "type_info": "Int8"
+        },
+        {
+          "name": "referenced_tweet_id",
+          "ordinal": 1,
+          "type_info": "Int8"
+        },
+        {
+          "name": "referenced_tweet_kind",
+          "ordinal": 2,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Int8",
+          "Int8",
+          "Text"
+        ]
+      }
+    },
+    "query": "\n            INSERT INTO news_referenced_tweet ( \n                tweet_id, referenced_tweet_id, referenced_tweet_kind\n             )\n            VALUES ( $1, $2, $3)\n            RETURNING \n                tweet_id, referenced_tweet_id, referenced_tweet_kind\n            "
+  },
+  "b530c211264b4d0be60aba523d854e45a7aafad01e701fcb1a4aaad56b1ee63b": {
+    "describe": {
+      "columns": [
+        {
+          "name": "list_id",
+          "ordinal": 0,
+          "type_info": "Int8"
+        },
+        {
+          "name": "last_checked_at",
+          "ordinal": 1,
+          "type_info": "Int8"
+        }
+      ],
+      "nullable": [
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Int8"
+        ]
+      }
+    },
+    "query": "\n            SELECT list_id, last_checked_at\n            FROM news_twitter_list\n            WHERE list_id = $1;\n        "
+  },
+  "c722724daabc53019c1b162ac38896d79180aba208d62ab110f56290cc2e5416": {
+    "describe": {
+      "columns": [
+        {
+          "name": "url_slug",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "url_id",
+          "ordinal": 1,
+          "type_info": "Int4"
+        },
+        {
+          "name": "url_score",
+          "ordinal": 2,
+          "type_info": "Int4"
+        },
+        {
+          "name": "num_references",
+          "ordinal": 3,
+          "type_info": "Int4"
+        },
+        {
+          "name": "first_referenced_by",
+          "ordinal": 4,
+          "type_info": "Int8"
+        },
+        {
+          "name": "is_climate_related",
+          "ordinal": 5,
+          "type_info": "Bool"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 6,
+          "type_info": "Int8"
+        },
+        {
+          "name": "created_at_str",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "tweeted_at",
+          "ordinal": 8,
+          "type_info": "Int8"
+        },
+        {
+          "name": "tweeted_at_str",
+          "ordinal": 9,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": []
+      }
+    },
+    "query": "\n            SELECT url_slug, url_id, url_score, num_references, first_referenced_by, is_climate_related, created_at, created_at_str, tweeted_at, tweeted_at_str\n            FROM news_feed_url\n            WHERE \n                is_climate_related IS NULL \n            ORDER BY url_score DESC\n            LIMIT 20\n            \n        "
+  },
+  "ca49a83c0d0f07a47a40ac3b4e64a90cdf461f764b4b415bfa3775136db35412": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Int4"
+        },
+        {
+          "name": "url",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "expanded_url",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "expanded_url_parsed",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "expanded_url_host",
+          "ordinal": 4,
+          "type_info": "Text"
+        },
+        {
+          "name": "display_url",
+          "ordinal": 5,
+          "type_info": "Text"
+        },
+        {
+          "name": "is_twitter_url",
+          "ordinal": 6,
+          "type_info": "Bool"
+        },
+        {
+          "name": "is_english",
+          "ordinal": 7,
+          "type_info": "Bool"
+        },
+        {
+          "name": "title",
+          "ordinal": 8,
+          "type_info": "Text"
+        },
+        {
+          "name": "description",
+          "ordinal": 9,
+          "type_info": "Text"
+        },
+        {
+          "name": "preview_image_thumbnail_url",
+          "ordinal": 10,
+          "type_info": "Text"
+        },
+        {
+          "name": "preview_image_url",
+          "ordinal": 11,
+          "type_info": "Text"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 12,
+          "type_info": "Int8"
+        },
+        {
+          "name": "created_at_str",
+          "ordinal": 13,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        true,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text",
+          "Text",
+          "Text",
+          "Text",
+          "Bool",
+          "Bool",
+          "Text",
+          "Text",
+          "Text",
+          "Text",
+          "Int8",
+          "Text"
+        ]
+      }
+    },
+    "query": "\n            INSERT INTO news_tweet_url ( \n                url, expanded_url, expanded_url_parsed, expanded_url_host, display_url, is_twitter_url, is_english, title, description, preview_image_thumbnail_url, preview_image_url, created_at, created_at_str\n             )\n            VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)\n            RETURNING \n                id, url, expanded_url, expanded_url_parsed, expanded_url_host, display_url, is_twitter_url, is_english, title, description, preview_image_thumbnail_url, preview_image_url, created_at, created_at_str\n            "
+  },
+  "de651e60ff9f318e50185d0202f1fb538f73eb74b4d2f69758cfbaeb6b6d7f15": {
+    "describe": {
+      "columns": [
+        {
+          "name": "url_slug",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "url_id",
+          "ordinal": 1,
+          "type_info": "Int4"
+        },
+        {
+          "name": "url_score",
+          "ordinal": 2,
+          "type_info": "Int4"
+        },
+        {
+          "name": "num_references",
+          "ordinal": 3,
+          "type_info": "Int4"
+        },
+        {
+          "name": "first_referenced_by",
+          "ordinal": 4,
+          "type_info": "Int8"
+        },
+        {
+          "name": "is_climate_related",
+          "ordinal": 5,
+          "type_info": "Bool"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 6,
+          "type_info": "Int8"
+        },
+        {
+          "name": "created_at_str",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "tweeted_at",
+          "ordinal": 8,
+          "type_info": "Int8"
+        },
+        {
+          "name": "tweeted_at_str",
+          "ordinal": 9,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Int4",
+          "Int4",
+          "Int4",
+          "Int8",
+          "Bool",
+          "Int8",
+          "Text",
+          "Int8",
+          "Text"
+        ]
+      }
+    },
+    "query": "\n            INSERT INTO news_feed_url ( \n                url_slug, url_id, url_score, num_references, first_referenced_by, is_climate_related, created_at, created_at_str, tweeted_at, tweeted_at_str\n             )\n            VALUES ( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10)\n            RETURNING \n                url_slug, url_id, url_score, num_references, first_referenced_by, is_climate_related, created_at, created_at_str, tweeted_at, tweeted_at_str\n            "
+  },
+  "e97cf152fa550e5b76388a126e7d377967e97de46f86d3efb696d66ef9cf0280": {
+    "describe": {
+      "columns": [
+        {
+          "name": "user_id",
+          "ordinal": 0,
+          "type_info": "Int8"
+        },
+        {
+          "name": "username",
+          "ordinal": 1,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Int8"
+        ]
+      }
+    },
+    "query": "\n            SELECT user_id, username\n            FROM news_twitter_referenced_user\n            WHERE user_id = $1;\n        "
+  },
+  "e9b5bf35ca01bdd7d33c015a5a0d88bee0bd071b06b59a01b6d8043f7342036a": {
+    "describe": {
+      "columns": [
+        {
+          "name": "url_slug",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "url_id",
+          "ordinal": 1,
+          "type_info": "Int4"
+        },
+        {
+          "name": "url_score",
+          "ordinal": 2,
+          "type_info": "Int4"
+        },
+        {
+          "name": "num_references",
+          "ordinal": 3,
+          "type_info": "Int4"
+        },
+        {
+          "name": "first_referenced_by",
+          "ordinal": 4,
+          "type_info": "Int8"
+        },
+        {
+          "name": "is_climate_related",
+          "ordinal": 5,
+          "type_info": "Bool"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 6,
+          "type_info": "Int8"
+        },
+        {
+          "name": "created_at_str",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "tweeted_at",
+          "ordinal": 8,
+          "type_info": "Int8"
+        },
+        {
+          "name": "tweeted_at_str",
+          "ordinal": 9,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        true,
+        false,
+        false,
+        true,
+        true
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "\n            SELECT url_slug, url_id, url_score, num_references, first_referenced_by, is_climate_related, created_at, created_at_str, tweeted_at, tweeted_at_str\n            FROM news_feed_url\n            WHERE url_slug = $1        \n        "
+  },
+  "ea1d507a2807b4ebe53d30752c1c9dfb298be4302fba67221349d2f46f34d102": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Int4",
+          "Int4",
+          "Int4"
+        ]
+      }
+    },
+    "query": "\n        UPDATE news_feed_url \n        SET url_score = $1, num_references = $2\n        WHERE url_id = $3\n            "
+  },
+  "f46798c1b5dc48c1707a74db16277d21fd85a70ad46daab349c9291a062a372a": {
+    "describe": {
+      "columns": [
+        {
+          "name": "url_id",
+          "ordinal": 0,
+          "type_info": "Int4"
+        },
+        {
+          "name": "text",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "tweet_id",
+          "ordinal": 2,
+          "type_info": "Int8"
+        },
+        {
+          "name": "author_id",
+          "ordinal": 3,
+          "type_info": "Int8"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 4,
+          "type_info": "Int8"
+        },
+        {
+          "name": "created_at_str",
+          "ordinal": 5,
+          "type_info": "Text"
+        },
+        {
+          "name": "username?",
+          "ordinal": 6,
+          "type_info": "Text"
+        },
+        {
+          "name": "referenced_username?",
+          "ordinal": 7,
+          "type_info": "Text"
+        },
+        {
+          "name": "referenced_tweet_id?",
+          "ordinal": 8,
+          "type_info": "Int8"
+        },
+        {
+          "name": "referenced_tweet_kind?",
+          "ordinal": 9,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "\n        SELECT \n            rtu.url_id,\n            t.text,\n            t.tweet_id,\n            t.author_id,\n            t.created_at,\n            t.created_at_str,\n            u.username as \"username?\",\n            ru.username as \"referenced_username?\",\n            rt.referenced_tweet_id as \"referenced_tweet_id?\",\n            rt.referenced_tweet_kind as \"referenced_tweet_kind?\"\n        FROM\n            news_referenced_tweet_url as rtu \n            JOIN news_tweet_url as tu ON tu.id = rtu.url_id\n            JOIN news_tweet as t ON t.tweet_id = rtu.tweet_id\n            JOIN news_feed_url as nfu ON nfu.url_id = rtu.url_id\n            LEFT JOIN news_twitter_user as u ON t.author_id = u.user_id\t\n            LEFT JOIN news_twitter_referenced_user as ru ON t.author_id = ru.user_id\n            LEFT JOIN news_referenced_tweet as rt ON t.tweet_id = rt.tweet_id\n        WHERE\n            nfu.url_slug = $1\n            AND tu.is_twitter_url = False\n            AND tu.title IS NOT NULL\n            AND t.in_reply_to_user_id IS NULL\n        "
+  },
+  "f7ca358df9e7c6f595237445e3fc1b6cbbc21f7bf515e1c295075267307ea292": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Int4",
+          "Int4",
+          "Int8"
+        ]
+      }
+    },
+    "query": "\n            UPDATE news_twitter_user \n            SET \n                user_referenced_tweets_count = $1,\n                user_score = $2 \n            WHERE user_id = $3\n            "
+  },
+  "fdcb23a033f5f0f00fb88765f1cc91c4f2e8fc27fd16c1a353c875f79c3fc742": {
+    "describe": {
+      "columns": [
+        {
+          "name": "tweet_id",
+          "ordinal": 0,
+          "type_info": "Int8"
+        },
+        {
+          "name": "text",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "author_id",
+          "ordinal": 2,
+          "type_info": "Int8"
+        },
+        {
+          "name": "conversation_id",
+          "ordinal": 3,
+          "type_info": "Int8"
+        },
+        {
+          "name": "in_reply_to_user_id",
+          "ordinal": 4,
+          "type_info": "Int8"
+        },
+        {
+          "name": "created_at",
+          "ordinal": 5,
+          "type_info": "Int8"
+        },
+        {
+          "name": "created_at_str",
+          "ordinal": 6,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Int8",
+          "Text",
+          "Int8",
+          "Int8",
+          "Int8",
+          "Int8",
+          "Text"
+        ]
+      }
+    },
+    "query": "\n            INSERT INTO news_tweet ( \n                tweet_id, text, author_id, conversation_id, in_reply_to_user_id, created_at, created_at_str\n             )\n            VALUES ( $1, $2, $3, $4, $5, $6, $7)\n            RETURNING \n            tweet_id, text, author_id, conversation_id, in_reply_to_user_id, created_at, created_at_str\n            "
+  },
+  "fe347268ac162738411b6347b2fdd4e3a2ae13eeff7e3139238fa2eca1fa7e68": {
+    "describe": {
+      "columns": [
+        {
+          "name": "user_id",
+          "ordinal": 0,
+          "type_info": "Int8"
+        },
+        {
+          "name": "username",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "profile_image_url",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "description",
+          "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "verified",
+          "ordinal": 4,
+          "type_info": "Bool"
+        },
+        {
+          "name": "followers_count",
+          "ordinal": 5,
+          "type_info": "Int4"
+        },
+        {
+          "name": "listed_count",
+          "ordinal": 6,
+          "type_info": "Int4"
+        },
+        {
+          "name": "user_referenced_tweets_count",
+          "ordinal": 7,
+          "type_info": "Int4"
+        },
+        {
+          "name": "user_score",
+          "ordinal": 8,
+          "type_info": "Int4"
+        },
+        {
+          "name": "last_tweet_id",
+          "ordinal": 9,
+          "type_info": "Int8"
+        },
+        {
+          "name": "last_updated_at",
+          "ordinal": 10,
+          "type_info": "Int8"
+        },
+        {
+          "name": "last_checked_at",
+          "ordinal": 11,
+          "type_info": "Int8"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        false,
+        false,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": []
+      }
+    },
+    "query": "\n            SELECT user_id, username, profile_image_url, description, verified, followers_count, listed_count, user_referenced_tweets_count, user_score, last_tweet_id, last_updated_at, last_checked_at\n            FROM news_twitter_user\n            ORDER BY username ASC\n        "
+  },
+  "ffcdf844dc077c39b7546ae33368c7e931a4f3bfec7a2f85832de3d576dc3b1d": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Int8",
+          "Text",
+          "Int4"
+        ]
+      }
+    },
+    "query": "\n        UPDATE news_feed_url \n        SET tweeted_at = $1, tweeted_at_str = $2\n        WHERE url_id = $3\n        "
+  }
 }
