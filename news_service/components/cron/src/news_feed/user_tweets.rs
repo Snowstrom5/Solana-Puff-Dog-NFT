@@ -81,7 +81,7 @@ async fn fetch_user_tweets(db_pool: &PgPool, twitter_api: &TwitterApi<BearerToke
         news_twitter_users.len()
     );
     for (i, news_twitter_user) in news_twitter_users.iter().enumerate() {
-        if i % 10 == 0 {
+        if i % 500 == 0 {
             info!(
                 "({}) Updating tweets for: {}",
                 i, news_twitter_user.username
