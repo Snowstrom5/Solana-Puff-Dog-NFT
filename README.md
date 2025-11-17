@@ -1,84 +1,51 @@
-# Climate News - Services
+# Puff Dog NFT
 
-[![web_push](https://github.com/climatenews/services/actions/workflows/news_service_web_push.yml/badge.svg)](https://github.com/climatenews/services/actions/workflows/news_service_web_push.yml) [![cron_push](https://github.com/climatenews/services/actions/workflows/news_service_cron_push.yml/badge.svg)](https://github.com/climatenews/services/actions/workflows/news_service_cron_push.yml) [![api_push](https://github.com/climatenews/services/actions/workflows/news_service_api_push.yml/badge.svg)](https://github.com/climatenews/services/actions/workflows/news_service_api_push.yml)
+Puff Dog NFT is a meme-inspired Solana NFT collection that gives holders access to rewards, prize draws, and future game integration.  
 
+## 🚀 What Is It?
 
-## Overview
-`devops` - Terraform & Ansible deployment scripts
+- Built on **Solana** with a total supply of 10,000 NFTs. :contentReference[oaicite:0]{index=0}  
+- Each Puff Dog NFT grants entry into exclusive raffles with cash, rare NFTs, and other rewards. :contentReference[oaicite:1]{index=1}  
+- Mint price: **1 SOL + gas** (per the current mint page). :contentReference[oaicite:2]{index=2}  
+- NFT holders are positioned to participate in a future **play-to-earn game**. :contentReference[oaicite:3]{index=3}  
 
-`news_service` - Rust Cron and API services
+## 📈 Roadmap
 
-`web` - Next.js frontend
+1. **Token & Community Launch**  
+   - PUFF token launched on Solana. :contentReference[oaicite:4]{index=4}  
+   - Grow the Puff Dog community. :contentReference[oaicite:5]{index=5}  
+2. **NFT & Gaming**  
+   - Full NFT collection mint. :contentReference[oaicite:6]{index=6}  
+   - Launch of Puff Dog marketplace & play-to-earn game beta. :contentReference[oaicite:7]{index=7}  
+3. **DAO & Ecosystem**  
+   - PUFF DAO formation. :contentReference[oaicite:8]{index=8}  
+   - Cross-chain expansions for broader DeFi / gaming use. :contentReference[oaicite:9]{index=9}  
 
-## Running locally
-### Prerequisites
-- Docker & Docker Compose
-- [Twitter API key](https://developer.twitter.com/en/docs/authentication/oauth-2-0/bearer-tokens)
-- [OpenAI API key](https://openai.com/api/)
+## 💰 How to Mint / Buy
 
-### Setting up the .env.dev file
-```bash
-# copy the sample .env file 
-cp .env.sample .env.dev
-```
-Set the `OPENAI_API_KEY` & `TWITTER_BEARER_TOKEN` variables in `.env.dev`
+- Connect to your **Phantom Wallet**. :contentReference[oaicite:10]{index=10}  
+- Pay the mint price (1 SOL + gas). :contentReference[oaicite:11]{index=11}  
+- There’s no enforced limit on how many NFTs you can own — mint as many as you like. :contentReference[oaicite:12]{index=12}  
 
-### Test the app with Docker Compose
-```bash
-# start docker
-service docker start
+## ✅ Benefits of Holding
 
-# Start the app
-docker-compose --env-file ".env.dev" up -d --build 
+- Automatic entry into **exclusive prize draws** (cash, NFTs, etc.). :contentReference[oaicite:13]{index=13}  
+- Early access to the **Puff Dog play-to-earn game** once it's launched. :contentReference[oaicite:14]{index=14}  
+- Community membership in the broader PUFF ecosystem. :contentReference[oaicite:15]{index=15}  
 
-# tail the logs
-docker-compose logs --tail="all" -f
-```
+## ⚠️ Risks / Things to Know
 
-## Deploying
-### Deploy the stack with Docker Swarm
-```bash
-# Initialize a docker swarm
-sudo docker swarm init 
+- NFTs on Solana can be volatile — their value depends on demand, game success, and community growth.  
+- Prize draw rewards are not guaranteed; they rely on the roadmap being fully executed.  
+- Web3 / blockchain projects carry risk: smart contract bugs, wallet risk, or regulatory changes.
 
-# Deploy the stack
-sudo env $(cat .env.dev | xargs) docker stack deploy --compose-file docker-compose.yaml climate_news_stack 
+## 📚 Useful Links
 
-# Display stack info
-sudo docker stack ps climate_news_stack
+- **Live mint site:** [puffdognft.vercel.app](https://puffdognft.vercel.app/) :contentReference[oaicite:16]{index=16}  
+- **Project website / token info:** [puffdog.com](https://puffdog.com/) :contentReference[oaicite:17]{index=17}  
+- **Whitepaper / Roadmap:** Available via the mint site’s roadmap section. :contentReference[oaicite:18]{index=18}  
 
-# Display service info
-sudo docker service ps climate_news_stack_news_cron
+---
 
-# Inspect a service
-sudo docker service inspect --pretty climate_news_stack_news_cron
-
-# Restart a service
-sudo docker service update --force climate_news_stack_news_cron
-
-# Run a command in a container
-sudo docker container ls
-sudo docker exec -it f855a1118d35 /bin/bash
-
-# Logs for a service
-sudo docker service logs -f --since 1h climate_news_stack_db
-sudo docker service logs -f --since 1h climate_news_stack_news_api
-sudo docker service logs -f --since 1h climate_news_stack_news_cron
-sudo docker service logs -f --since 1h climate_news_stack_web
-sudo docker service logs -f --since 1h climate_news_stack_caddy
-
-# Search logs for a service
-sudo docker service logs --since 24h climate_news_stack_news_cron 2>&1 | grep "tweet_cron_job" 
-
-# Remove the stack
-sudo docker stack rm climate_news_stack
-sudo docker volume prune
-
-```
-
-# Triggering a new Docker image build
-```bash
-
-git tag -a v0.0.52 -m "logging update" && git push origin v0.0.52
-
-```
+If you like, I can **generate a README automatically in Japanese** (or bilingual) so it's ready for your GitHub — do you want me to do that?
+::contentReference[oaicite:19]{index=19}
